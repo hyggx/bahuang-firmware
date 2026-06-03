@@ -46,7 +46,7 @@
  * Without it, the build falls back to g_cjk_font_data[] in MCU Flash
  * (cjk_font_data.c — 222 glyphs, ~6.2 KB, only covers menu strings).
  *
- * The Bafang preset enables CJK_USE_SPI_FLASH so that the full 1355-glyph
+ * The Bahuang preset enables CJK_USE_SPI_FLASH so that the full 1355-glyph
  * font (128 KB in SPI Flash) is available for arbitrary channel names.
  * --------------------------------------------------------------------------- */
 #ifndef CJK_USE_SPI_FLASH

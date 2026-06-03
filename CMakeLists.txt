@@ -9,8 +9,8 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Debug")
 endif()
 
-set(CMAKE_PROJECT_NAME bafang)
-set(BAFANG_VERSION "0.1.0")
+set(CMAKE_PROJECT_NAME bahuang)
+set(BAHUANG_VERSION "0.1.0")
 
 # Enable compile command to ease indexing with e.g. clangd
 set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
@@ -20,8 +20,8 @@ message("Build type: " ${CMAKE_BUILD_TYPE})
 
 enable_language(C ASM)
 
-set(AUTHOR_STRING "Bafang")
-set(VERSION_STRING "v${BAFANG_VERSION}")
+set(AUTHOR_STRING "Bahuang")
+set(VERSION_STRING "v${BAHUANG_VERSION}")
 if(NOT EDITION_STRING)
     set(EDITION_STRING "Custom")
 endif()

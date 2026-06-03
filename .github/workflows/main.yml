@@ -22,5 +22,5 @@ jobs:
       - name: Upload firmware artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: bafang-firmware-${{ github.sha }}
+          name: bahuang-firmware-${{ github.sha }}
           path: build/*/*.bin

@@ -102,7 +102,7 @@
         "ENABLE_FEAT_F4HWN_LOGO": false,
         "ENABLE_SWD": false,
         "EDITION_STRING": "Default",
-        "TARGET": "bafang.default"
+        "TARGET": "bahuang.default"
       }
     },
     {
@@ -129,7 +129,7 @@
         "ENABLE_FEAT_F4HWN_LOGO": true,
         "ENABLE_SWD": false,
         "EDITION_STRING": "Full",
-        "TARGET": "bafang.full"
+        "TARGET": "bahuang.full"
       }
     },
     {
@@ -137,7 +137,7 @@
       "inherits": "Default",
       "cacheVariables": {
         "EDITION_STRING": "Custom",
-        "TARGET": "bafang.custom"
+        "TARGET": "bahuang.custom"
       }
     }
   ],

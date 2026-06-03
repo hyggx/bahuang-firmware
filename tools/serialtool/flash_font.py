@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""flash_font.py — Write the CJK font binary to Bafang (UV-K1) SPI Flash.
+"""flash_font.py — Write the CJK font binary to Bahuang (UV-K1) SPI Flash.
 
 Two write paths are supported, selected automatically based on font size:
 
@@ -197,7 +197,7 @@ def _drain(ser: "serial.Serial") -> None:
 def _handshake(ser: "serial.Serial") -> tuple:
     """Drain port, then send CMD_0514 (session init); returns (version_str, timestamp).
 
-    The bafang firmware always uses XOR obfuscation (bIsEncrypted is a
+    The bahuang firmware always uses XOR obfuscation (bIsEncrypted is a
     compile-time constant true; the toggle code is commented out).
     """
     _drain(ser)
@@ -297,7 +297,7 @@ def _read_block_spi(ser: "serial.Serial", spi_addr: int, size: int) -> bytes:
 def main() -> None:
     ap = argparse.ArgumentParser(
         description=(
-            "Write CJK font binary to Bafang (UV-K1) SPI Flash.\n"
+            "Write CJK font binary to Bahuang (UV-K1) SPI Flash.\n"
             f"Font is stored at EEPROM virtual 0x{FONT_EEPROM_BASE:04X} "
             f"→ SPI Flash physical 0x1F0000."
         )

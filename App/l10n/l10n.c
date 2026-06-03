@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: Apache-2.0
- * Runtime language accessor for Bafang firmware.
+ * Runtime language accessor for Bahuang firmware.
  *
  * g_lang is initialised from gEeprom.LANGUAGE in SETTINGS_InitEEPROM().
  * Default is LANG_EN so the firmware works before any font is written

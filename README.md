@@ -1,4 +1,4 @@
-﻿# 八方固件 · Bafang Firmware
+﻿# 八荒固件 · Bahuang Firmware
 
 > 专为泉盛 UV-K6 V3 / UV-K1 / UV-K1(8) 打造的中文自定义固件
 
@@ -6,7 +6,7 @@
 
 ## 🧭 开发理念
 
-八方固件从第一性原理出发——每一项功能都必须回答：它解决了什么真实问题？如果答案模糊，就不加。继承已有固件中经过验证的设计，删去堆砌和画蛇添足，让操作逻辑回归清晰与简洁。我们的目标是通用，而不是迎合某一种使用偏好——让更多人拿起来就能用，而不是为少数人定制。
+八荒固件从第一性原理出发——每一项功能都必须回答：它解决了什么真实问题？如果答案模糊，就不加。继承已有固件中经过验证的设计，删去堆砌和画蛇添足，让操作逻辑回归清晰与简洁。我们的目标是通用，而不是迎合某一种使用偏好——让更多人拿起来就能用，而不是为少数人定制。
 
 在此基础上，我们做了：菜单按功能分类折叠，以及完整的拼音输入法——为中文用户提供真正本地化的体验。我们对社区代码进行了深度的检查和审计，修复潜在的问题，优化改进算法。
 
@@ -160,7 +160,7 @@
 > 本固件内置中文菜单与拼音输入法（IME），需要将字体文件写入 SPI Flash 才能显示汉字。
 
 1. 对讲机正常开机后连接 USB
-2. 用 **Chrome / Edge** 打开 **[https://hyggx.github.io/bafang-firmware/](https://hyggx.github.io/bafang-firmware/)**
+2. 用 **Chrome / Edge** 打开 **[https://hyggx.github.io/bahuang-firmware/](https://hyggx.github.io/bahuang-firmware/)**
 3. 按页面提示完成刷写，打印成功信息后断开 USB
 
 > **提示**：字体数据存储在 SPI Flash，不受固件更新影响，**只需刷一次**。  
@@ -229,8 +229,8 @@ A：固件本身是合法的开源软件。发射行为是否合法取决于您�
 ### 使用 Docker（推荐）
 
 ```bash
-git clone git@github.com:hyggx/bafang-firmware.git
-cd bafang-firmware
+git clone git@github.com:hyggx/bahuang-firmware.git
+cd bahuang-firmware
 
 ./compile-with-docker.sh Default   # 推荐日常版
 ./compile-with-docker.sh Full      # 全功能版
@@ -267,7 +267,7 @@ cmake --build --preset Default -j
 ## 📄 许可证
 
 Copyright 2023 Dual Tachyon  
-Copyright 2025–2026 [hyggx](https://github.com/hyggx) and Bafang Firmware Contributors  
+Copyright 2025–2026 [hyggx](https://github.com/hyggx) and Bahuang Firmware Contributors  
 基于 [Apache License 2.0](LICENSE) 开源协议发布。
 
 如果您基于本项目创建派生版本，鼓励您保持开源，与社区共享您的工作。

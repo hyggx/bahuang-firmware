@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: Apache-2.0
- * Simplified Chinese string table for Bafang firmware.
+ * Simplified Chinese string table for Bahuang firmware.
  *
  * These are UTF-8 encoded strings stored in firmware Flash.
  * CJK character BITMAPS are NOT stored here — they are loaded at

@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: Apache-2.0
- * English string table for Bafang firmware.
+ * English string table for Bahuang firmware.
  * One entry per StrId_t in the exact same order as the enum.           */
 
 #include "strings.h"

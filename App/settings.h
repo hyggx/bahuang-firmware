@@ -27,7 +27,7 @@
 
 // EEPROM layout version — increment whenever EEPROM data structures change
 // in a way that is not backward-compatible with older firmware builds.
-// v1: Initial Bafang release (channel names use full 16-byte slot).
+// v1: Initial Bahuang release (channel names use full 16-byte slot).
 // v2: Add LANGUAGE field to EEPROM_Config_t.
 #define EEPROM_LAYOUT_VERSION       3u
 #define EEPROM_LAYOUT_VERSION_ADDR  0x00A170u  // 1 byte, immediately after VERSION_STRING_2 area
@@ -319,7 +319,7 @@ typedef struct {
     uint8_t               S0_LEVEL;
     uint8_t               S9_LEVEL;
 #endif
-    /* LINGBO_EXT_BEGIN — fields appended by Bafang firmware */
+    /* LINGBO_EXT_BEGIN — fields appended by Bahuang firmware */
     LangId_t              LANGUAGE;       /* v2: UI language (LANG_EN / LANG_ZH) */
     /* LINGBO_EXT_END */
 } EEPROM_Config_t;

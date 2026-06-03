@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""gen_cjk_font.py — Generate a CJK 12×12 glyph database for Bafang firmware.
+"""gen_cjk_font.py — Generate a CJK 12×12 glyph database for Bahuang firmware.
 
 Reads a WenQuanYi 9pt BDF bitmap font, extracts the requested Unicode
 codepoints (default: CJK Unified Ideographs U+4E00–U+9FFF plus common

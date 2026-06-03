@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: Apache-2.0
- * Pinyin → Unicode candidate table for Bafang IME.
+ * Pinyin → Unicode candidate table for Bahuang IME.
  *
  * 334 Mandarin syllables, 1359 total candidate codepoints.
  * Sorted by syllable string — binary-searchable in O(log 334) ≈ 9 steps.
