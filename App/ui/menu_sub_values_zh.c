@@ -125,14 +125,14 @@ const char * const gSubMenu_F_LOCK_zh[] = {
 #ifdef ENABLE_FEAT_F4HWN_GMRS_FRS_MURS
     "GMRS\nFRS\nMURS",
 #endif
-    "\xe7\xa6\x81\xe6\xad\xa2\n\xe5\x85\xa8\xe9\x83\xa8",   /* 禁止全部  DISABLE ALL */
-    "\xe8\xa7\xa3\xe9\x94\x81\n\xe5\x85\xa8\xe9\x83\xa8",   /* 解锁全部  UNLOCK ALL  */
+    "\xe7\xa6\x81\xe6\xad\xa2\xe5\x85\xa8\xe9\x83\xa8",   /* 禁止全部  DISABLE ALL */
+    "\xe8\xa7\xa3\xe9\x94\x81\xe5\x85\xa8\xe9\x83\xa8",   /* 解锁全部  UNLOCK ALL  */
 };
 
 /* ── Navigation key orientation ─────────────────────────────────────────── */
 const char * const gSubMenu_SET_NAV_zh[] = {
-    "\xe5\xb7\xa6\n\xe5\x8f\xb3\nUV-K1",     /* 左右 UV-K1   LEFT/RIGHT */
-    "\xe4\xb8\x8a\n\xe4\xb8\x8b\nUV-K5(8)",   /* 上下 UV-K5   UP/DOWN    */
+    "\xe5\xb7\xa6\xe5\x8f\xb3\nUV-K1",     /* 左右 UV-K1   LEFT/RIGHT */
+    "\xe4\xb8\x8a\xe4\xb8\x8b\nUV-K5(8)",   /* 上下 UV-K5   UP/DOWN    */
 };
 
 #ifdef ENABLE_VOICE

@@ -158,7 +158,7 @@ void Main(void)
             gEeprom.KEY_LOCK = 0;
             SETTINGS_SaveSettings();
             gMenuCursor = UI_MENU_GetMenuIdx(FIRST_HIDDEN_MENU_ITEM);
-            gSubMenuSelection = gSetting_F_LOCK;
+            gSubMenuSelection = gSetting_350EN;
         #endif
     }
 

@@ -44,8 +44,6 @@
 #include "ime/ime.h"
 
 
-uint8_t gUnlockAllTxConfCnt;
-
 #ifdef ENABLE_F_CAL_MENU
     void writeXtalFreqCal(const int32_t value, const bool update_eeprom)
     {
@@ -870,18 +868,6 @@ void MENU_AcceptSetting(void)
 #endif
 
         case MENU_F_LOCK: {
-            if(gSubMenuSelection == F_LOCK_NONE) { // select 10 times to enable
-                gUnlockAllTxConfCnt++;
-#ifdef ENABLE_FEAT_F4HWN
-                if(gUnlockAllTxConfCnt < 3)
-#else
-                if(gUnlockAllTxConfCnt < 10)
-#endif
-                    return;
-            }
-            else
-                gUnlockAllTxConfCnt = 0;
-
             gSetting_F_LOCK = gSubMenuSelection;
 
             #ifdef ENABLE_FEAT_F4HWN
@@ -2121,6 +2107,8 @@ static void MENU_Key_MENU(const bool bKeyPressed, const bool bKeyHeld)
         const int m = UI_MENU_GetCurrentMenuId();
 
         if (m == MENU_RESET  ||
+            m == MENU_F_LOCK ||
+            m == MENU_350EN  ||
             m == MENU_MEM_CH ||
             m == MENU_DEL_CH ||
             m == MENU_MEM_NAME)
@@ -2336,6 +2324,7 @@ static void MENU_Key_UP_DOWN(bool bKeyPressed, bool bKeyHeld, int8_t Direction)
             break;
 
         default:
+            gAskForConfirmation = 0; // a changed value invalidates a pending confirmation
             MENU_ClampSelection(Direction);
             gRequestDisplayScreen = DISPLAY_MENU;
             return;

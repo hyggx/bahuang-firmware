@@ -281,6 +281,7 @@ const t_menu_item MenuList[] =
     {"SetTOT",      MENU_SET_TOT,       MENU_CAT_RADIO},
     {"SetEOT",      MENU_SET_EOT,       MENU_CAT_RADIO},
 #endif
+    {"F Lock",      MENU_F_LOCK,        MENU_CAT_RADIO},  // TX frequency lock
 
 // ── DTMF ─────────────────────────────────────────────────────────────────
     {"UPCode",      MENU_UPCODE,        MENU_CAT_DTMF},
@@ -346,7 +347,6 @@ const t_menu_item MenuList[] =
 
 // ── HIDDEN ───────────────────────────────────────
 // enabled if pressing both the PTT and upper side button at power-on
-    {"F Lock",      MENU_F_LOCK,        MENU_CAT_NONE},
 #ifndef ENABLE_FEAT_F4HWN
     {"Tx 200",      MENU_200TX,         MENU_CAT_NONE}, // was "200TX"
     {"Tx 350",      MENU_350TX,         MENU_CAT_NONE}, // was "350TX"
@@ -367,7 +367,11 @@ const t_menu_item MenuList[] =
     {"",            0xff,               MENU_CAT_NONE}  // end of list - DO NOT delete or move
 };
 
-const uint8_t FIRST_HIDDEN_MENU_ITEM = MENU_F_LOCK;
+#ifdef ENABLE_FEAT_F4HWN
+const uint8_t FIRST_HIDDEN_MENU_ITEM = MENU_350EN;
+#else
+const uint8_t FIRST_HIDDEN_MENU_ITEM = MENU_200TX;
+#endif
 
 const char gSubMenu_TXP[][5] =
 {
@@ -535,8 +539,8 @@ const char gSubMenu_LANG[][4] =
 
 const char gSubMenu_SET_NAV[][17] =
 {
-    "LEFT\nRIGHT\nUV-K1",
-    "UP\nDOWN\nUV-K5(8)",
+    "LEFT/RIGHT\nUV-K1",
+    "UP/DOWN\nUV-K5(8)",
 };
 
 #ifndef ENABLE_FEAT_F4HWN
@@ -1219,6 +1223,7 @@ void UI_DisplayMenu(void)
     memset(top_right_badge, 0, sizeof(top_right_badge));
 
     bool already_printed = false;
+    uint8_t arrow_page = 2; // page of the '>' sub-menu marker, follows the value text
 
     /* Brightness is set to max in some entries of this menu. Return it to the configured brightness
        level the "next" time we enter here.I.e., when we move from one menu to another.
@@ -1305,6 +1310,7 @@ void UI_DisplayMenu(void)
                 sprintf(String, "%.3s.%.3s MHz", ascii, ascii + 3);
             }
             UI_PrintString(String, menu_item_x1, menu_item_x2, 4, 8);
+            arrow_page = 4;
             already_printed = true;
             break;
 
@@ -1702,14 +1708,7 @@ void UI_DisplayMenu(void)
             break;
 
         case MENU_F_LOCK:
-#ifdef ENABLE_FEAT_F4HWN
-            if(!gIsInSubMenu && gUnlockAllTxConfCnt>0 && gUnlockAllTxConfCnt<3)
-#else
-            if(!gIsInSubMenu && gUnlockAllTxConfCnt>0 && gUnlockAllTxConfCnt<10)
-#endif
-                strcpy(String, SUBV("READ\nMANUAL", "\xe9\x98\x85\xe8\xaf\xbb\n\xe6\x89\x8b\xe5\x86\x8c")); /* 阅读手册 */
-            else
-                strcpy(String, SUBV(gSubMenu_F_LOCK[gSubMenuSelection], gSubMenu_F_LOCK_zh[gSubMenuSelection]));
+            strcpy(String, SUBV(gSubMenu_F_LOCK[gSubMenuSelection], gSubMenu_F_LOCK_zh[gSubMenuSelection]));
             break;
 
         #ifdef ENABLE_F_CAL_MENU
@@ -1929,10 +1928,23 @@ void UI_DisplayMenu(void)
                     y = 2u;
             }
 
+            // F Lock: 3 big lines fill pages 2-7 and touch the title separator and screen edge,
+            // so show the first line big (pages 3-4) and the rest small (pages 5, 6).
+            const bool compact = (m == MENU_F_LOCK && lines == 3u && !small);
+            if (compact)
+                y = 3u;
+
+            // Big font: centre the 2-page arrow on the text block; small font: on its middle line.
+            arrow_page = (uint8_t)(compact ? 4u : small ? y + (lines - 1u) / 2u : y + lines - 1u);
+            if (arrow_page > 6u)
+                arrow_page = 6u;
+
             // draw the text lines
             for (i = 0; i < len && lines > 0; lines--)
             {
-                if (small)
+                const bool line_small = small || (compact && y > 3u);
+
+                if (line_small)
                     UI_PrintStringSmallNormal(String + i, menu_item_x1, menu_item_x2, y);
                 else
                     print_menu_value(String + i, menu_item_x1, menu_item_x2, y);
@@ -1945,7 +1957,7 @@ void UI_DisplayMenu(void)
                 while (i < len && String[i] < 32)
                     i++;
 
-                y += small ? 1 : 2;
+                y += line_small ? 1 : 2;
             }
         }
     }
@@ -1999,18 +2011,23 @@ void UI_DisplayMenu(void)
     }
 
     if ((m == MENU_RESET    ||
+         m == MENU_F_LOCK   ||
+         m == MENU_350EN    ||
          m == MENU_MEM_CH   ||
          m == MENU_MEM_NAME ||
          m == MENU_DEL_CH) && gAskForConfirmation)
     {   // display confirmation
         char *pPrintStr = (gAskForConfirmation == 1) ? "SURE?" : "WAIT!";
+        // clear the value rows first, otherwise the prompt overprints it
+        for (uint8_t pg = (m == MENU_F_LOCK) ? 2u : 4u; pg < ((m == MENU_F_LOCK) ? 8u : 6u); pg++)
+            memset(gFrameBuffer[pg], 0, LCD_WIDTH);
         UI_PrintString(pPrintStr, menu_item_x1, menu_item_x2, 4, 8);
     }
 
 #ifdef ENABLE_CUSTOM_MENU_LAYOUT
     // Edit mode indicator: '>' at far-right of value area (pages 2-3), shown only while in submenu
     if (gIsInSubMenu)
-        UI_PrintString(">", LCD_WIDTH - 8, 0, 2, 8);
+        UI_PrintString(">", LCD_WIDTH - 8, 0, arrow_page, 8);
 #endif
 
     ST7565_BlitFullScreen();
