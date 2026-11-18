@@ -4,6 +4,33 @@
 
 ---
 
+## 📸 实机截图
+
+<table>
+  <tr>
+    <td align="center"><img src="images/01-main-dual-vfo.jpg" width="380"><br>双 VFO 主界面</td>
+    <td align="center"><img src="images/05-spectrum.jpg" width="380"><br>频谱分析仪（F + 5）</td>
+  </tr>
+  <tr>
+    <td align="center"><img src="images/02-main-rx.jpg" width="380"><br>接收中：信号强度与 S 表</td>
+    <td align="center"><img src="images/03-main-rx-strong.jpg" width="380"><br>强信号接收</td>
+  </tr>
+  <tr>
+    <td align="center"><img src="images/04-main-tx.jpg" width="380"><br>发射中</td>
+    <td align="center"><img src="images/09-ime-pinyin.jpg" width="380"><br>拼音输入法编辑信道名</td>
+  </tr>
+  <tr>
+    <td align="center"><img src="images/06-menu-category-1.jpg" width="380"><br>分类菜单（1/2）</td>
+    <td align="center"><img src="images/07-menu-category-2.jpg" width="380"><br>分类菜单（2/2）</td>
+  </tr>
+  <tr>
+    <td align="center"><img src="images/08-menu-ctcss.jpg" width="380"><br>接收模拟亚音</td>
+    <td align="center"><img src="images/10-menu-freq-lock.jpg" width="380"><br>锁定频段</td>
+  </tr>
+</table>
+
+---
+
 ## 🧭 开发理念
 
 八荒固件从第一性原理出发——每一项功能都必须回答：它解决了什么真实问题？如果答案模糊，就不加。继承已有固件中经过验证的设计，删去堆砌和画蛇添足，让操作逻辑回归清晰与简洁。我们的目标是通用，而不是迎合某一种使用偏好——让更多人拿起来就能用，而不是为少数人定制。
