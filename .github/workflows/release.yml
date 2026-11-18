@@ -1,0 +1,41 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check tag matches firmware version
+        run: |
+          version=$(sed -n 's/^set(BAHUANG_VERSION "\(.*\)")/\1/p' CMakeLists.txt)
+          if [ "v${version}" != "${GITHUB_REF_NAME}" ]; then
+            echo "Tag ${GITHUB_REF_NAME} does not match BAHUANG_VERSION v${version}"
+            exit 1
+          fi
+
+      - name: Build Default and Full
+        run: |
+          chmod +x compile-with-docker.sh
+          ./compile-with-docker.sh All
+
+      - name: Collect release files
+        run: |
+          mkdir release
+          cp build/Default/bahuang.default.bin "release/bahuang-${GITHUB_REF_NAME}-default.bin"
+          cp build/Full/bahuang.full.bin       "release/bahuang-${GITHUB_REF_NAME}-full.bin"
+          cp tools/cjk_font.bin                release/cjk_font.bin
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "${GITHUB_REF_NAME}" release/* --title "${GITHUB_REF_NAME}" --generate-notes

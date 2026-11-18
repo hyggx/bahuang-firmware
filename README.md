@@ -155,7 +155,13 @@
 
 ### 第二步：下载固件
 
-前往 [Releases 页面](../../releases) 下载最新版本的 `.bin` 固件文件。
+前往 [Releases 页面](../../releases) 下载最新版本的固件文件：
+
+| 文件 | 用途 |
+|------|------|
+| `bahuang-vX.Y.Z-default.bin` | Default 版固件 |
+| `bahuang-vX.Y.Z-full.bin` | Full 版固件 |
+| `cjk_font.bin` | 中文字体（第五步使用，只需刷一次） |
 
 > **版本说明**
 >
@@ -188,7 +194,8 @@
 
 1. 对讲机正常开机后连接 USB
 2. 用 **Chrome / Edge** 打开 **[https://hyggx.github.io/bahuang-firmware/](https://hyggx.github.io/bahuang-firmware/)**
-3. 按页面提示完成刷写，打印成功信息后断开 USB
+3. 第一步选择 Releases 里下载的 `cjk_font.bin`，第二步连接串口，第三步点击开始刷写
+4. 打印成功信息后断开 USB
 
 > **提示**：字体数据存储在 SPI Flash，不受固件更新影响，**只需刷一次**。  
 > 如需使用 Python 脚本手动刷写，请参阅 [Wiki：Python 脚本刷字体](../../wiki/CJK-Font-Flash-Python)。

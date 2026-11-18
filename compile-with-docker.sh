@@ -5,10 +5,9 @@ set -euo pipefail
 # Usage:
 #   ./compile-with-docker.sh [Preset] [CMake options...]
 # Examples:
-#   ./compile-with-docker.sh Custom
-#   ./compile-with-docker.sh Bandscope -DENABLE_SPECTRUM=ON
-#   ./compile-with-docker.sh Broadcast -DENABLE_FEAT_F4HWN_GAME=ON -DENABLE_NOAA=ON
-#   ./compile-with-docker.sh All
+#   ./compile-with-docker.sh Default
+#   ./compile-with-docker.sh Custom -DENABLE_SPECTRUM=ON
+#   ./compile-with-docker.sh All        # Default + Full
 # Default preset: "Custom"
 # ---------------------------------------------
 
@@ -22,9 +21,9 @@ EXTRA_ARGS=("$@")
 # ---------------------------------------------
 # Validate preset name
 # ---------------------------------------------
-if [[ ! "$PRESET" =~ ^(Custom|Bandscope|Broadcast|Basic|RescueOps|Game|Bahuang|Fusion|All)$ ]]; then
+if [[ ! "$PRESET" =~ ^(Default|Full|Custom|All)$ ]]; then
   echo "❌ Unknown preset: '$PRESET'"
-  echo "Valid presets are: Custom, Bandscope, Broadcast, Basic, RescueOps, Game, Bahuang, Fusion, All"
+  echo "Valid presets are: Default, Full, Custom, All"
   exit 1
 fi
 
@@ -62,7 +61,7 @@ build_preset() {
 # Handle 'All' preset
 # ---------------------------------------------
 if [[ "$PRESET" == "All" ]]; then
-  PRESETS=(Bandscope Broadcast Basic RescueOps Game Bahuang Fusion)
+  PRESETS=(Default Full)
   for p in "${PRESETS[@]}"; do
     build_preset "$p"
   done
