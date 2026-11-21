@@ -218,7 +218,7 @@ void RADIO_InitInfo(VFO_Info_t *pInfo, const uint16_t ChannelSave, const uint32_
     pInfo->CHANNEL_SAVE             = ChannelSave;
     pInfo->FrequencyReverse         = false;
     pInfo->TX_LOCK                  = true;
-    pInfo->OUTPUT_POWER             = OUTPUT_POWER_LOW;
+    pInfo->OUTPUT_POWER             = OUTPUT_POWER_TURBO;
     pInfo->freq_config_RX.Frequency = Frequency;
     pInfo->freq_config_TX.Frequency = Frequency;
     pInfo->pRX                      = &pInfo->freq_config_RX;
@@ -376,7 +376,7 @@ void RADIO_ConfigureChannel(const unsigned int VFO, const unsigned int configure
         {
             pVfo->FrequencyReverse  = false;
             pVfo->CHANNEL_BANDWIDTH = BK4819_FILTER_BW_WIDE;
-            pVfo->OUTPUT_POWER      = OUTPUT_POWER_LOW;
+            pVfo->OUTPUT_POWER      = OUTPUT_POWER_TURBO;
             pVfo->BUSY_CHANNEL_LOCK = false;
             pVfo->TX_LOCK = true;
         }

@@ -2,8 +2,8 @@
  * Runtime language accessor for Bahuang firmware.
  *
  * g_lang is initialised from gEeprom.LANGUAGE in SETTINGS_InitEEPROM().
- * Default is LANG_EN so the firmware works before any font is written
- * to SPI Flash.                                                              */
+ * Until the user picks a language it is Chinese if the CJK font is present
+ * in SPI Flash, otherwise English.                                           */
 
 #include "strings.h"
 #include <stddef.h>

@@ -24,6 +24,7 @@
 #include "driver/bk1080.h"
 #include "driver/bk4819.h"
 #include "driver/py25q16.h"
+#include "l10n/cjk_font.h"
 #include "misc.h"
 #include "settings.h"
 #include "ui/menu.h"
@@ -180,7 +181,7 @@ void SETTINGS_InitEEPROM(void)
         gSetting_set_audio_fm = ((Data[0] & 0x0F) < 5) ? (Data[0] & 0x0F) : 0;
         gSetting_set_audio_am = (((Data[0] >> 4) & 0x0F) < 3) ? ((Data[0] >> 4) & 0x0F) : 0;
     #endif
-    gEeprom.SQUELCH_LEVEL        = (Data[1] < 10) ? Data[1] : 1;
+    gEeprom.SQUELCH_LEVEL        = (Data[1] < 10) ? Data[1] : 2;
     gEeprom.TX_TIMEOUT_TIMER     = (Data[2] >= 1 && Data[2] <= 30) ? Data[2] : 2;  // default 2 × 30 s = 60 s
     #ifdef ENABLE_NOAA
         gEeprom.NOAA_AUTO_SCAN   = (Data[3] <  2) ? Data[3] : false;
@@ -210,7 +211,7 @@ void SETTINGS_InitEEPROM(void)
     gEeprom.CROSS_BAND_RX_TX      = (Data[2] < 3) ? Data[2] : CROSS_BAND_OFF;
     gEeprom.BATTERY_SAVE          = (Data[3] < 6) ? Data[3] : 4;
     gEeprom.DUAL_WATCH            = (Data[4] < 3) ? Data[4] : DUAL_WATCH_CHAN_A;
-    gEeprom.BACKLIGHT_TIME        = (Data[5] < 8) ? Data[5] : 3;
+    gEeprom.BACKLIGHT_TIME        = (Data[5] < 8) ? Data[5] : 2;
     #ifdef ENABLE_FEAT_F4HWN_NARROWER
         gEeprom.TAIL_TONE_ELIMINATION = Data[6] & 0x01;
         gSetting_set_nfm = (Data[6] >> 1) & 0x01;
@@ -544,7 +545,9 @@ gEeprom.FreqChannel[1]   = IS_FREQ_CHANNEL(Data16[5]) ? Data16[5] : (FREQ_CHANNE
     {
         uint8_t lang_byte = 0xFFu;
         PY25Q16_ReadBuffer(EEPROM_LANGUAGE_ADDR, &lang_byte, 1);
-        gEeprom.LANGUAGE = (lang_byte < LANG_COUNT) ? (LangId_t)lang_byte : LANG_EN;
+        // unset byte: Chinese if the font is flashed, otherwise English (no glyphs to draw)
+        gEeprom.LANGUAGE = (lang_byte < LANG_COUNT) ? (LangId_t)lang_byte
+                         : (CJK_FontAvailable() ? LANG_ZH : LANG_EN);
         g_lang = gEeprom.LANGUAGE;
     }
 }
