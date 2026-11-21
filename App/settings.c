@@ -705,7 +705,7 @@ bool SETTINGS_FetchChannelScanDisplayInfo(const uint16_t channel, ChannelScanDis
 
     tmp = raw.data[6];
     if (tmp >= STEP_N_ELEM)
-        tmp = STEP_12_5kHz;
+        tmp = STEP_2_5kHz;
     info->stepSetting   = (STEP_Setting_t)tmp;
     info->stepFrequency = gStepFrequencyTable[tmp];
 
