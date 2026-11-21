@@ -548,7 +548,7 @@ void MENU_AcceptSetting(void)
                 pConfig->Code = gSubMenuSelection - 105;
             }
 
-            gRequestSaveChannel = 1;
+            gRequestSaveChannel = 2;
             return;
         }
         case MENU_T_CTCS:
@@ -567,22 +567,22 @@ void MENU_AcceptSetting(void)
                 pConfig->CodeType = CODE_TYPE_CONTINUOUS_TONE;
             }
 
-            gRequestSaveChannel = 1;
+            gRequestSaveChannel = 2;
             return;
         }
         case MENU_SFT_D:
             gTxVfo->TX_OFFSET_FREQUENCY_DIRECTION = gSubMenuSelection;
-            gRequestSaveChannel                   = 1;
+            gRequestSaveChannel                   = 2;
             return;
 
         case MENU_OFFSET:
             gTxVfo->TX_OFFSET_FREQUENCY = gSubMenuSelection;
-            gRequestSaveChannel         = 1;
+            gRequestSaveChannel         = 2;
             return;
 
         case MENU_W_N:
             gTxVfo->CHANNEL_BANDWIDTH = gSubMenuSelection;
-            gRequestSaveChannel       = 1;
+            gRequestSaveChannel       = 2;
             return;
 
 #ifndef ENABLE_FEAT_F4HWN
@@ -594,13 +594,13 @@ void MENU_AcceptSetting(void)
                 else
                     BK4819_DisableScramble();
             #endif
-            gRequestSaveChannel     = 1;
+            gRequestSaveChannel     = 2;
             return;
 #endif
 
         case MENU_BCL:
             gTxVfo->BUSY_CHANNEL_LOCK = gSubMenuSelection;
-            gRequestSaveChannel       = 1;
+            gRequestSaveChannel       = 2;
             return;
 
         case MENU_MEM_CH:
@@ -783,7 +783,7 @@ void MENU_AcceptSetting(void)
 
         case MENU_PTT_ID:
             gTxVfo->DTMF_PTT_ID_TX_MODE = gSubMenuSelection;
-            gRequestSaveChannel         = 1;
+            gRequestSaveChannel         = 2;
             return;
 
         case MENU_BAT_TXT:
@@ -794,7 +794,7 @@ void MENU_AcceptSetting(void)
         case MENU_D_DCD:
             gTxVfo->DTMF_DECODING_ENABLE = gSubMenuSelection;
             DTMF_clear_RX();
-            gRequestSaveChannel = 1;
+            gRequestSaveChannel = 2;
             return;
 #endif
 
@@ -831,7 +831,7 @@ void MENU_AcceptSetting(void)
 
         case MENU_AM:
             gTxVfo->Modulation     = gSubMenuSelection;
-            gRequestSaveChannel = 1;
+            gRequestSaveChannel = 2;
             return;
 
         #ifndef ENABLE_FEAT_F4HWN
@@ -1011,7 +1011,7 @@ void MENU_AcceptSetting(void)
             break;
         case MENU_TX_LOCK:
             gTxVfo->TX_LOCK = gSubMenuSelection;
-            gRequestSaveChannel       = 1;
+            gRequestSaveChannel       = 2;
             return;
 #endif
     }

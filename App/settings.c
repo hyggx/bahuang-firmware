@@ -1262,6 +1262,20 @@ void SETTINGS_SaveChannel(uint16_t Channel, uint8_t VFO, const VFO_Info_t *pVFO,
         State -> _8[7] =  pVFO->SCRAMBLING_TYPE;
 #endif
 
+        if (IS_MR_CHANNEL(Channel)) {
+            // overwriting a channel with a different frequency starts it without scan exclusion
+            uint32_t oldFrequency;
+            PY25Q16_ReadBuffer(OffsetVFO, &oldFrequency, sizeof(oldFrequency));
+
+            if (oldFrequency != pVFO->freq_config_RX.Frequency) {
+                ChannelAttributes_t attr = *MR_GetChannelAttributes(Channel);
+                if (attr.exclude) {
+                    attr.exclude = 0;
+                    MR_SetChannelAttributes(Channel, &attr);
+                }
+            }
+        }
+
         PY25Q16_WriteBuffer(OffsetVFO, Buf, 0x10, false);
 
         SETTINGS_UpdateChannel(Channel, pVFO, true, true, true);
@@ -1321,6 +1335,8 @@ void SETTINGS_UpdateChannel(uint16_t channel, const VFO_Info_t *pVFO, bool keep,
             att.unused_2 = 0;
             att.exclude = 0;
             att.scanlist = pVFO->SCANLIST_PARTICIPATION;
+            if (state.__val != 0xFFFF)
+                att.exclude = state.exclude; // editing a channel must not drop its scan exclusion
             if (check && state.__val == att.__val)
                 return; // no change in the attributes
         }
