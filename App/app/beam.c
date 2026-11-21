@@ -184,7 +184,7 @@ static void BEAM_SavePayloadToFirstFreeChannel(const BEAM_Payload_t *payload)
     vfo.Modulation = payload->modulation;
     vfo.TX_LOCK = payload->tx_lock;
     vfo.BUSY_CHANNEL_LOCK = payload->busy_channel_lock;
-    vfo.OUTPUT_POWER = payload->output_power;
+    vfo.OUTPUT_POWER = OUTPUT_POWER_Sanitize(payload->output_power);
     vfo.CHANNEL_BANDWIDTH = payload->channel_bandwidth;
     vfo.FrequencyReverse = payload->frequency_reverse;
     vfo.DTMF_PTT_ID_TX_MODE = payload->dtmf_ptt_id_mode;

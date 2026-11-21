@@ -144,7 +144,7 @@ static_assert(ARRAY_SIZE(action_opt_table) == ACTION_OPT_LEN);
 
 void ACTION_Power(void)
 {
-    if (++gTxVfo->OUTPUT_POWER > OUTPUT_POWER_TURBO)
+    if (++gTxVfo->OUTPUT_POWER > OUTPUT_POWER_HIGH)
         gTxVfo->OUTPUT_POWER = OUTPUT_POWER_LOW;
 
     // Use mode 2 so that MR (memory) channels get their full data written to

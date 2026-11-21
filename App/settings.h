@@ -102,12 +102,17 @@ enum {
     TX_OFFSET_FREQUENCY_DIRECTION_SUB
 };
 
+// Values match the on-flash encoding; 0 was the removed 0.5W step and is mapped to LOW on load.
 enum {
-    OUTPUT_POWER_LOW = 0,   // ~0.5W
-    OUTPUT_POWER_MED,       // ~1W
-    OUTPUT_POWER_HIGH,      // ~2W
-    OUTPUT_POWER_TURBO      // ~5W
+    OUTPUT_POWER_LOW = 1,   // ~1W
+    OUTPUT_POWER_MID,       // ~2W
+    OUTPUT_POWER_HIGH       // ~5W
 };
+
+static inline uint8_t OUTPUT_POWER_Sanitize(const uint8_t value)
+{
+    return (value >= OUTPUT_POWER_LOW && value <= OUTPUT_POWER_HIGH) ? value : OUTPUT_POWER_LOW;
+}
 
 enum ACTION_OPT_t {
     ACTION_OPT_NONE = 0,

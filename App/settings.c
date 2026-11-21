@@ -722,7 +722,7 @@ bool SETTINGS_FetchChannelScanDisplayInfo(const uint16_t channel, ChannelScanDis
         const uint8_t d4 = raw.data[4];
         info->frequencyReverse = !!((d4 >> 0) & 1u);
         info->channelBandwidth = !!((d4 >> 1) & 1u);
-        info->outputPower      =   ((d4 >> 2) & 3u);
+        info->outputPower      = OUTPUT_POWER_Sanitize((d4 >> 2) & 7u);
         info->busyChannelLock  = !!((d4 >> 5) & 1u);
         info->txLock           = !!((d4 >> 6) & 1u);
     }

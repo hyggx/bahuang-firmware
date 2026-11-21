@@ -20,7 +20,6 @@ const char * const gSubMenu_OFF_ON_zh[] = {
 
 /* ── TX power level names ───────────────────────────────────────────────── */
 const char * const gSubMenu_TXP_zh[] = {
-    "\xe7\x94\x9a\xe4\xbd\x8e(0.5w)",   /* 甚低(0.5w) */
     "\xe4\xbd\x8e(1w)",                   /* 低(1w)    */
     "\xe4\xb8\xad(2w)",                   /* 中(2w)    */
     "\xe9\xab\x98(5w)",                   /* 高(5w)    */

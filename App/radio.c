@@ -218,7 +218,7 @@ void RADIO_InitInfo(VFO_Info_t *pInfo, const uint16_t ChannelSave, const uint32_
     pInfo->CHANNEL_SAVE             = ChannelSave;
     pInfo->FrequencyReverse         = false;
     pInfo->TX_LOCK                  = true;
-    pInfo->OUTPUT_POWER             = OUTPUT_POWER_TURBO;
+    pInfo->OUTPUT_POWER             = OUTPUT_POWER_HIGH;
     pInfo->freq_config_RX.Frequency = Frequency;
     pInfo->freq_config_TX.Frequency = Frequency;
     pInfo->pRX                      = &pInfo->freq_config_RX;
@@ -376,7 +376,7 @@ void RADIO_ConfigureChannel(const unsigned int VFO, const unsigned int configure
         {
             pVfo->FrequencyReverse  = false;
             pVfo->CHANNEL_BANDWIDTH = BK4819_FILTER_BW_WIDE;
-            pVfo->OUTPUT_POWER      = OUTPUT_POWER_TURBO;
+            pVfo->OUTPUT_POWER      = OUTPUT_POWER_HIGH;
             pVfo->BUSY_CHANNEL_LOCK = false;
             pVfo->TX_LOCK = true;
         }
@@ -385,7 +385,7 @@ void RADIO_ConfigureChannel(const unsigned int VFO, const unsigned int configure
             const uint8_t d4 = data[4];
             pVfo->FrequencyReverse  = !!((d4 >> 0) & 1u);
             pVfo->CHANNEL_BANDWIDTH = !!((d4 >> 1) & 1u);
-            pVfo->OUTPUT_POWER      =   ((d4 >> 2) & 7u);
+            pVfo->OUTPUT_POWER      = OUTPUT_POWER_Sanitize((d4 >> 2) & 7u);
             pVfo->BUSY_CHANNEL_LOCK = !!((d4 >> 5) & 1u);
             pVfo->TX_LOCK           = !!((d4 >> 6) & 1u);
         }
@@ -580,9 +580,9 @@ void RADIO_ConfigureSquelchAndOutputPower(VFO_Info_t *pInfo)
 
     uint8_t Txp[3];
     uint8_t Op = 0; // Low eeprom calibration data
-    // Map 4-level index (0=0.5W,1=1W,2=2W,3=5W) to internal calibration index (3,4,5,6)
-    static const uint8_t pwr_map[4] = {3, 4, 5, 6};
-    uint8_t currentPower = pwr_map[pInfo->OUTPUT_POWER < 4 ? pInfo->OUTPUT_POWER : 0];
+    // Map the 3 levels (1W, 2W, 5W) to internal calibration index (4, 5, 6)
+    static const uint8_t pwr_map[4] = {4, 4, 5, 6};
+    uint8_t currentPower = pwr_map[OUTPUT_POWER_Sanitize(pInfo->OUTPUT_POWER)];
 
     if (currentPower == 5)
         Op = 1; // Mid eeprom calibration data

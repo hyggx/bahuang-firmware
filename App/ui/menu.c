@@ -373,12 +373,11 @@ const uint8_t FIRST_HIDDEN_MENU_ITEM = MENU_350EN;
 const uint8_t FIRST_HIDDEN_MENU_ITEM = MENU_200TX;
 #endif
 
-const char gSubMenu_TXP[][5] =
+const char gSubMenu_TXP[][9] =
 {
-    "VLow",
-    "Low",
-    "Mid",
-    "High"
+    "Low(1w)",
+    "Mid(2w)",
+    "High(5w)"
 };
 
 const char gSubMenu_SFT_D[][4] =
@@ -1270,7 +1269,7 @@ void UI_DisplayMenu(void)
 
         case MENU_TXP:
         {
-            uint8_t sel = (uint8_t)gSubMenuSelection < 4u ? (uint8_t)gSubMenuSelection : 0u;
+            const uint8_t sel = OUTPUT_POWER_Sanitize((uint8_t)gSubMenuSelection) - OUTPUT_POWER_LOW;
             strcpy(String, SUBV(gSubMenu_TXP[sel], gSubMenu_TXP_zh[sel]));
             break;
         }

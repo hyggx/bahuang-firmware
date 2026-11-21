@@ -1806,8 +1806,8 @@ void UI_DisplayMain(void)
                 */
 
                 uint8_t currentPower = gRxVfo->OUTPUT_POWER;
-                static const uint8_t pwr_map[4] = {3, 4, 5, 6};
-                Level = pwr_map[currentPower < 4 ? currentPower : 0];
+                static const uint8_t pwr_map[4] = {4, 4, 5, 6};
+                Level = pwr_map[OUTPUT_POWER_Sanitize(currentPower)];
             }
             else 
             if (mode == VFO_MODE_RX)
@@ -1931,16 +1931,16 @@ void UI_DisplayMain(void)
 
         if (!show_freq_in_bar && (state == VFO_STATE_NORMAL || state == VFO_STATE_ALARM))
         {   // show the TX power
-            uint8_t currentPower = vfoInfo->OUTPUT_POWER < 4 ? vfoInfo->OUTPUT_POWER : 0;
+            const uint8_t currentPower = OUTPUT_POWER_Sanitize(vfoInfo->OUTPUT_POWER) - OUTPUT_POWER_LOW;
 
             if (gSetting_set_gui)
             {
-                const char pwr_short[][2] = {"V", "L", "M", "H"};
+                const char pwr_short[][2] = {"L", "M", "H"};
                 UI_PrintStringSmallNormal(pwr_short[currentPower], LCD_WIDTH + 42, 0, line + 1);
             }
             else
             {
-                const char pwr_long[][5] = {"VLO", "LOW", "MID", "HIGH"};
+                const char pwr_long[][5] = {"LOW", "MID", "HIGH"};
                 GUI_DisplaySmallest(pwr_long[currentPower], 24, line == 0 ? 17 : 49, false, true);
             }
         }
