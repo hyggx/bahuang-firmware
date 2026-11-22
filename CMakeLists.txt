@@ -10,7 +10,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 set(CMAKE_PROJECT_NAME bahuang)
-set(BAHUANG_VERSION "0.3.1")
+set(BAHUANG_VERSION "0.3.2")
 
 # Enable compile command to ease indexing with e.g. clangd
 set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
