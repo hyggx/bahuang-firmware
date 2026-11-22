@@ -23,16 +23,15 @@ jobs:
             exit 1
           fi
 
-      - name: Build Default and Full
+      - name: Build Default
         run: |
           chmod +x compile-with-docker.sh
-          ./compile-with-docker.sh All
+          ./compile-with-docker.sh Default
 
       - name: Collect release files
         run: |
           mkdir release
           cp build/Default/bahuang.default.bin "release/bahuang-${GITHUB_REF_NAME}-default.bin"
-          cp build/Full/bahuang.full.bin       "release/bahuang-${GITHUB_REF_NAME}-full.bin"
           cp tools/cjk_font.bin                release/cjk_font.bin
 
       - name: Create release

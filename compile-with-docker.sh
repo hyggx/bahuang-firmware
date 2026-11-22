@@ -7,7 +7,7 @@ set -euo pipefail
 # Examples:
 #   ./compile-with-docker.sh Default
 #   ./compile-with-docker.sh Custom -DENABLE_SPECTRUM=ON
-#   ./compile-with-docker.sh All        # Default + Full
+#   ./compile-with-docker.sh All        # same as Default
 # Default preset: "Custom"
 # ---------------------------------------------
 
@@ -21,9 +21,9 @@ EXTRA_ARGS=("$@")
 # ---------------------------------------------
 # Validate preset name
 # ---------------------------------------------
-if [[ ! "$PRESET" =~ ^(Default|Full|Custom|All)$ ]]; then
+if [[ ! "$PRESET" =~ ^(Default|Custom|All)$ ]]; then
   echo "❌ Unknown preset: '$PRESET'"
-  echo "Valid presets are: Default, Full, Custom, All"
+  echo "Valid presets are: Default, Custom, All"
   exit 1
 fi
 
@@ -61,7 +61,7 @@ build_preset() {
 # Handle 'All' preset
 # ---------------------------------------------
 if [[ "$PRESET" == "All" ]]; then
-  PRESETS=(Default Full)
+  PRESETS=(Default)
   for p in "${PRESETS[@]}"; do
     build_preset "$p"
   done
