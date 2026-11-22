@@ -32,6 +32,9 @@ void UI_PrintStringSmallBufferBold(const char *pString, uint8_t * buffer);
  * cache.  Renders at column x, starting at framebuffer row line (uses line+1
  * too, same as UI_PrintString).  No clipping beyond x>=128.                  */
 void UI_PrintStringUTF8(const char *pString, uint8_t x, uint8_t line);
+/* Same arguments as UI_PrintString: strings with CJK go through the UTF-8
+ * renderer (centred when End > Start), plain ASCII keeps the fixed-width one. */
+void UI_PrintStringAuto(const char *pString, uint8_t Start, uint8_t End, uint8_t Line, uint8_t Width);
 void UI_DisplayFrequency(const char *string, uint8_t X, uint8_t Y, bool center);
 
 void UI_DisplayPopup(const char *string);

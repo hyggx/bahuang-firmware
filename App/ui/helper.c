@@ -400,7 +400,7 @@ void UI_DisplayPopup(const char *string)
     //  UI_DrawPixelBuffer(117, y, true);
     // }
     // DrawRectangle(9,9, 118,38, true);
-    UI_PrintString(string, 9, 118, 2, 8);
+    UI_PrintStringAuto(string, 9, 118, 2, 8);
     UI_PrintStringSmallNormal("Press EXIT", 9, 118, 6);
 }
 
@@ -473,6 +473,42 @@ void UI_PrintStringUTF8(const char *pString, uint8_t x, uint8_t line)
             x += (uint8_t)(CJK_GLYPH_W + 1u);  /* 12px + 1px gap */
         }
     }
+}
+
+void UI_PrintStringAuto(const char *pString, uint8_t Start, uint8_t End, uint8_t Line, uint8_t Width)
+{
+    bool cjk = false;
+
+    for (const uint8_t *p = (const uint8_t *)pString; *p; p++) {
+        if (*p >= 0x80u) {
+            cjk = true;
+            break;
+        }
+    }
+
+    if (!cjk) {
+        UI_PrintString(pString, Start, End, Line, Width);
+        return;
+    }
+
+    uint8_t x = Start;
+
+    if (End > Start) {
+        unsigned int width = 0;
+
+        for (const uint8_t *p = (const uint8_t *)pString; *p; p++) {
+            if (*p >= 0xC0u)
+                width += CJK_GLYPH_W + 1u;
+            else if (*p < 0x80u)
+                width += (*p == ' ') ? 4u : 8u;
+        }
+
+        const unsigned int pane = (unsigned int)(End - Start) + 1u;
+        if (width < pane)
+            x = (uint8_t)(Start + (pane - width) / 2u);
+    }
+
+    UI_PrintStringUTF8(pString, x, Line);
 }
 
 void UI_DisplayClear()

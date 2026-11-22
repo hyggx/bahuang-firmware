@@ -25,30 +25,9 @@
 #include "ui/helper.h"
 #include "ui/scanner.h"
 
-// English keeps the original fixed-width renderer; other languages need the UTF-8 one.
 static void PrintText(const char *pString, uint8_t Start, bool bCentered, uint8_t Line)
 {
-    if (g_lang == LANG_EN) {
-        UI_PrintString(pString, Start, bCentered ? 127 : 0, Line, 8);
-        return;
-    }
-
-    uint8_t x = Start;
-
-    if (bCentered) {
-        unsigned int width = 0;
-
-        for (const uint8_t *p = (const uint8_t *)pString; *p; p++) {
-            if (*p >= 0xC0u)
-                width += 13u;       // CJK glyph + gap
-            else if (*p < 0x80u)
-                width += (*p == ' ') ? 4u : 8u;
-        }
-
-        x = (width < LCD_WIDTH) ? (uint8_t)((LCD_WIDTH - width) / 2u) : 0u;
-    }
-
-    UI_PrintStringUTF8(pString, x, Line);
+    UI_PrintStringAuto(pString, Start, bCentered ? 127 : 0, Line, 8);
 }
 
 void UI_DisplayScanner(void)

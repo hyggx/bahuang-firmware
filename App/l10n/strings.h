@@ -142,6 +142,17 @@ typedef enum {
     STR_SCAN_DONE,          /* SCAN CMP.  / 扫描完成 */
     STR_SCAN_FAIL,          /* SCAN FAIL. / 无结果  */
 
+    /* ── Prompts, popups, boot screens ── */
+    STR_UI_SURE,            /* SURE?      / 确认?   */
+    STR_UI_WAIT,            /* WAIT!      / 等待    */
+    STR_UI_LOW_BATTERY,     /* LOW BATTERY / 电池电量低 */
+    STR_UI_RELEASE,         /* RELEASE    / 请松开  */
+    STR_UI_ALL_KEYS,        /* ALL KEYS   / 所有按键 */
+    STR_UI_VOLTAGE,         /* VOLTAGE    / 电压    */
+    STR_UI_WELCOME,         /* WELCOME    / 你好    */
+    STR_UI_WELCOME2,        /* BIENVENUE  / 八荒固件 */
+    STR_UI_SCAN_RANGE,      /* ScnRng     / 范围    */
+
     STR_COUNT   /* must be last */
 } StrId_t;
 

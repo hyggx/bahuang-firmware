@@ -21,6 +21,7 @@
 #include "driver/st7565.h"
 #include "external/printf/printf.h"
 #include "helper/battery.h"
+#include "l10n/strings.h"
 #include "settings.h"
 #include "misc.h"
 #include "ui/helper.h"
@@ -208,8 +209,8 @@ void UI_DisplayReleaseKeys(void)
 #endif
     UI_DisplayClear();
 
-    UI_PrintString("RELEASE", 0, 127, 1, 10);
-    UI_PrintString("ALL KEYS", 0, 127, 3, 10);
+    UI_PrintStringAuto(STR(STR_UI_RELEASE), 0, 127, 1, 10);
+    UI_PrintStringAuto(STR(STR_UI_ALL_KEYS), 0, 127, 3, 10);
 
     ST7565_BlitStatusLine();  // blank status line
     ST7565_BlitFullScreen();
@@ -272,14 +273,14 @@ void UI_DisplayWelcome(void)
 
         if (gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_VOLTAGE)
         {
-            strcpy(WelcomeString0, "VOLTAGE");
+            strcpy(WelcomeString0, STR(STR_UI_VOLTAGE));
             strcpy(WelcomeString1, WelcomeString2);
         }
         else if(gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_ALL)
         {
             if(strlen(WelcomeString0) == 0 && strlen(WelcomeString1) == 0)
             {
-                strcpy(WelcomeString0, "WELCOME");
+                strcpy(WelcomeString0, STR(STR_UI_WELCOME));
                 strcpy(WelcomeString1, WelcomeString2);
             }
             else if(strlen(WelcomeString0) == 0 || strlen(WelcomeString1) == 0)
@@ -295,17 +296,17 @@ void UI_DisplayWelcome(void)
         {
             if(strlen(WelcomeString0) == 0)
             {
-                strcpy(WelcomeString0, "WELCOME");
+                strcpy(WelcomeString0, STR(STR_UI_WELCOME));
             }
 
             if(strlen(WelcomeString1) == 0)
             {
-                strcpy(WelcomeString1, "BIENVENUE");
+                strcpy(WelcomeString1, STR(STR_UI_WELCOME2));
             }
         }
 
-        UI_PrintString(WelcomeString0, 0, 127, 0, 10);
-        UI_PrintString(WelcomeString1, 0, 127, 2, 10);
+        UI_PrintStringAuto(WelcomeString0, 0, 127, 0, 10);
+        UI_PrintStringAuto(WelcomeString1, 0, 127, 2, 10);
 
 #ifdef ENABLE_FEAT_F4HWN
         UI_PrintStringSmallNormal(Version, 0, 128, 4);

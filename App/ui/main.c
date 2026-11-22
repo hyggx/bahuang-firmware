@@ -34,6 +34,7 @@
 #include "external/printf/printf.h"
 #include "functions.h"
 #include "helper/battery.h"
+#include "l10n/strings.h"
 #include "misc.h"
 #include "radio.h"
 #include "settings.h"
@@ -1194,7 +1195,7 @@ void UI_DisplayMain(void)
     UI_DisplayClear();
 
     if(gLowBattery && !gLowBatteryConfirmed) {
-        UI_DisplayPopup("LOW BATTERY");
+        UI_DisplayPopup(STR(STR_UI_LOW_BATTERY));
         ST7565_BlitFullScreen();
         return;
     }
@@ -1271,7 +1272,7 @@ void UI_DisplayMain(void)
                         shift = 3;
                     }
 
-                    UI_PrintString("ScnRng", 7, 0, line + shift, 8);
+                    UI_PrintStringAuto(STR(STR_UI_SCAN_RANGE), 7, 0, line + shift, 8);
                     UI_FormatFrequency(gScanRangeStart, String);
                     UI_PrintStringSmallNormal(String, 56, 0, line + shift);
                     UI_FormatFrequency(gScanRangeStop, String);
@@ -1285,7 +1286,7 @@ void UI_DisplayMain(void)
                     gScanRangeStart = 0;
                 }
 #else
-                UI_PrintString("ScnRng", 7, 0, line, 8);
+                UI_PrintStringAuto(STR(STR_UI_SCAN_RANGE), 7, 0, line, 8);
                 UI_FormatFrequency(gScanRangeStart, String);
                 UI_PrintStringSmallNormal(String, 56, 0, line);
                 UI_FormatFrequency(gScanRangeStop, String);

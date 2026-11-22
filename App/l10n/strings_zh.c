@@ -129,6 +129,17 @@ const char * const g_str_zh[STR_COUNT] = {
     [STR_SCAN_SCANNING]     = "\xe6\x89\xab\xe6\x8f\x8f",           /* 扫描    */
     [STR_SCAN_DONE]         = "\xe6\x89\xab\xe6\x8f\x8f\xe5\xae\x8c\xe6\x88\x90", /* 扫描完成 */
     [STR_SCAN_FAIL]         = "\xe6\x97\xa0\xe7\xbb\x93\xe6\x9e\x9c", /* 无结果  */
+
+    /* ── Prompts, popups, boot screens ── */
+    [STR_UI_SURE]           = "\xe7\xa1\xae\xe8\xae\xa4?",                 /* 确认?   */
+    [STR_UI_WAIT]           = "\xe7\xad\x89\xe5\xbe\x85",                 /* 等待    */
+    [STR_UI_LOW_BATTERY]    = "\xe7\x94\xb5\xe6\xb1\xa0\xe7\x94\xb5\xe9\x87\x8f\xe4\xbd\x8e", /* 电池电量低 */
+    [STR_UI_RELEASE]        = "\xe8\xaf\xb7\xe6\x9d\xbe\xe5\xbc\x80",       /* 请松开  */
+    [STR_UI_ALL_KEYS]       = "\xe6\x89\x80\xe6\x9c\x89\xe6\x8c\x89\xe9\x94\xae", /* 所有按键 */
+    [STR_UI_VOLTAGE]        = "\xe7\x94\xb5\xe5\x8e\x8b",                 /* 电压    */
+    [STR_UI_WELCOME]        = "\xe4\xbd\xa0\xe5\xa5\xbd",                 /* 你好    */
+    [STR_UI_WELCOME2]       = "\xe5\x85\xab\xe8\x8d\x92\xe5\x9b\xba\xe4\xbb\xb6", /* 八荒固件 */
+    [STR_UI_SCAN_RANGE]     = "\xe8\x8c\x83\xe5\x9b\xb4",                 /* 范围    */
 };
 
 _Static_assert(sizeof(g_str_zh) / sizeof(g_str_zh[0]) == STR_COUNT,

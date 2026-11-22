@@ -1793,7 +1793,7 @@ void UI_DisplayMenu(void)
         case MENU_TX_LOCK:
             if(TX_freq_check(gEeprom.VfoInfo[gEeprom.TX_VFO].pTX->Frequency) == 0)
             {
-                strcpy(String, "IN PLAN"); /* chars 在/范/围 absent from CJK font */
+                strcpy(String, SUBV("IN PLAN", "\xe5\x9c\xa8\xe8\x8c\x83\xe5\x9b\xb4\xe5\x86\x85")); /* 在范围内 */
             }
             else
             {
@@ -1967,7 +1967,7 @@ void UI_DisplayMenu(void)
     }
 
     if ((m == MENU_R_CTCS || m == MENU_R_DCS) && gCssBackgroundScan)
-        UI_PrintString("SCAN", menu_item_x1, menu_item_x2, 4, 8);
+        UI_PrintStringAuto(STR(STR_SCAN_SCANNING), menu_item_x1, menu_item_x2, 4, 8);
 
 #ifdef ENABLE_DTMF_CALLING
     if (m == MENU_D_LIST && gIsDtmfContactValid) {
@@ -2016,11 +2016,11 @@ void UI_DisplayMenu(void)
          m == MENU_MEM_NAME ||
          m == MENU_DEL_CH) && gAskForConfirmation)
     {   // display confirmation
-        char *pPrintStr = (gAskForConfirmation == 1) ? "SURE?" : "WAIT!";
+        const char *pPrintStr = STR((gAskForConfirmation == 1) ? STR_UI_SURE : STR_UI_WAIT);
         // clear the value rows first, otherwise the prompt overprints it
         for (uint8_t pg = (m == MENU_F_LOCK) ? 2u : 4u; pg < ((m == MENU_F_LOCK) ? 8u : 6u); pg++)
             memset(gFrameBuffer[pg], 0, LCD_WIDTH);
-        UI_PrintString(pPrintStr, menu_item_x1, menu_item_x2, 4, 8);
+        UI_PrintStringAuto(pPrintStr, menu_item_x1, menu_item_x2, 4, 8);
     }
 
 #ifdef ENABLE_CUSTOM_MENU_LAYOUT

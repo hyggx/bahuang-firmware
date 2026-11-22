@@ -123,6 +123,17 @@ const char * const g_str_en[STR_COUNT] = {
     [STR_SCAN_SCANNING]     = "SCAN",
     [STR_SCAN_DONE]         = "SCAN CMP.",
     [STR_SCAN_FAIL]         = "SCAN FAIL.",
+
+    /* ── Prompts, popups, boot screens ── */
+    [STR_UI_SURE]           = "SURE?",
+    [STR_UI_WAIT]           = "WAIT!",
+    [STR_UI_LOW_BATTERY]    = "LOW BATTERY",
+    [STR_UI_RELEASE]        = "RELEASE",
+    [STR_UI_ALL_KEYS]       = "ALL KEYS",
+    [STR_UI_VOLTAGE]        = "VOLTAGE",
+    [STR_UI_WELCOME]        = "WELCOME",
+    [STR_UI_WELCOME2]       = "BIENVENUE",
+    [STR_UI_SCAN_RANGE]     = "ScnRng",
 };
 
 _Static_assert(sizeof(g_str_en) / sizeof(g_str_en[0]) == STR_COUNT,
