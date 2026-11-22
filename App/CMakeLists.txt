@@ -86,7 +86,6 @@ endmacro()
 target_compile_definitions(App INTERFACE 
     "AUTHOR_STRING=\"${AUTHOR_STRING}\""
     "VERSION_STRING=\"${VERSION_STRING}\""
-    "EDITION_STRING=\"${EDITION_STRING}\""
     ALERT_TOT=10
 )
 

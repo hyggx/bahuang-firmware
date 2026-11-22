@@ -153,6 +153,17 @@ typedef enum {
     STR_UI_WELCOME2,        /* BIENVENUE  / 八荒固件 */
     STR_UI_SCAN_RANGE,      /* ScnRng     / 范围    */
 
+    /* ── AirCopy screen ── */
+    STR_AIR_READY,          /* AIR COPY(RDY) / 无线克隆(待机) */
+    STR_AIR_TRANSFER,       /* AIR COPY   / 无线克隆 */
+    STR_AIR_DONE,           /* AIR COPY(CMP) / 无线克隆(完成) */
+    STR_AIR_RCV,            /* RCV:       / 接收:   */
+    STR_AIR_SND,            /* SND:       / 发送:   */
+    STR_AIR_MEM,            /* MEM        / 信道    */
+    STR_AIR_SETTINGS,       /* Settings   / 设置    */
+
+    STR_UI_FW_NAME,         /* Bahuang    / 八荒固件 */
+
     STR_COUNT   /* must be last */
 } StrId_t;
 

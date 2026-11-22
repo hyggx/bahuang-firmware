@@ -1118,7 +1118,6 @@ void UI_DisplayMenu(void)
         return;
     }
 
-    const unsigned int menu_list_width = 6; // kept for fallback layout (ENABLE_CUSTOM_MENU_LAYOUT off)
     const unsigned int menu_item_x1    = 0;
     const unsigned int menu_item_x2    = LCD_WIDTH - 1;
     unsigned int       i;
@@ -1135,6 +1134,7 @@ void UI_DisplayMenu(void)
 
 #ifndef ENABLE_CUSTOM_MENU_LAYOUT
         // original (fallback) menu layout — sidebar list + right value zone
+    const unsigned int menu_list_width = 6;
     {
         // Use a category-local cursor for bounds checks so we never render
         // items from adjacent categories or hidden entries past the end.
@@ -1638,11 +1638,9 @@ void UI_DisplayMenu(void)
             uint8_t       p    = 0;
 
             if (page == p++) {
-                // Page 0: firmware identity — draw all three items manually so
-                // Edition (page 6) is not overwritten by the generic text loop.
-                print_menu_value(AUTHOR_STRING, menu_item_x1, menu_item_x2, 2);
+                // Page 0: firmware identity — draw the lines manually.
+                print_menu_value(STR(STR_UI_FW_NAME), menu_item_x1, menu_item_x2, 2);
                 print_menu_value(VERSION_STRING, menu_item_x1, menu_item_x2, 4);
-                UI_PrintStringSmallNormal(Edition, menu_item_x1, menu_item_x2, 6);
                 already_printed = true;
                 break;
             }

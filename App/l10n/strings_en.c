@@ -134,6 +134,16 @@ const char * const g_str_en[STR_COUNT] = {
     [STR_UI_WELCOME]        = "WELCOME",
     [STR_UI_WELCOME2]       = "BIENVENUE",
     [STR_UI_SCAN_RANGE]     = "ScnRng",
+
+    /* ── AirCopy screen ── */
+    [STR_AIR_READY]         = "AIR COPY(RDY)",
+    [STR_AIR_TRANSFER]      = "AIR COPY",
+    [STR_AIR_DONE]          = "AIR COPY(CMP)",
+    [STR_AIR_RCV]           = "RCV:",
+    [STR_AIR_SND]           = "SND:",
+    [STR_AIR_MEM]           = "MEM ",
+    [STR_AIR_SETTINGS]      = "Settings",
+    [STR_UI_FW_NAME]        = "Bahuang",
 };
 
 _Static_assert(sizeof(g_str_en) / sizeof(g_str_en[0]) == STR_COUNT,

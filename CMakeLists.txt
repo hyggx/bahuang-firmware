@@ -22,9 +22,6 @@ enable_language(C ASM)
 
 set(AUTHOR_STRING "Bahuang")
 set(VERSION_STRING "v${BAHUANG_VERSION}")
-if(NOT EDITION_STRING)
-    set(EDITION_STRING "Custom")
-endif()
 
 if(TARGET)
     set(EXE_NAME ${TARGET})

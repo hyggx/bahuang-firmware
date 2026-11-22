@@ -221,7 +221,6 @@ void UI_DisplayWelcome(void)
     char WelcomeString0[16];
     char WelcomeString1[16];
     char WelcomeString2[16];
-    char WelcomeString3[32];
 
     UI_StatusClear();
 
@@ -311,15 +310,19 @@ void UI_DisplayWelcome(void)
 #ifdef ENABLE_FEAT_F4HWN
         UI_PrintStringSmallNormal(Version, 0, 128, 4);
 
-        UI_DrawLineBuffer(gFrameBuffer, 0, 35, 18, 35, 1);
-        gFrameBuffer[4][19] ^= 0x7F;
-        for (uint8_t x = 20; x < 108; x++)
+        // Inverted bar sized to the text: 7 px per char, centered on 128 px.
+        const uint8_t barL = (uint8_t)((128 - strlen(Version) * 7 + 1) / 2 - 2);
+        const uint8_t barR = (uint8_t)(126 - barL);
+
+        UI_DrawLineBuffer(gFrameBuffer, 0, 35, barL - 1, 35, 1);
+        gFrameBuffer[4][barL] ^= 0x7F;
+        for (uint8_t x = barL + 1; x < barR; x++)
         {
             gFrameBuffer[4][x] ^= 0xFF;
             gFrameBuffer[3][x] ^= 0x80;
         }
-        gFrameBuffer[4][108] ^= 0x7F;
-        UI_DrawLineBuffer(gFrameBuffer, 109, 35, 127, 35, 1);
+        gFrameBuffer[4][barR] ^= 0x7F;
+        UI_DrawLineBuffer(gFrameBuffer, barR + 1, 35, 127, 35, 1);
 
         /*
         #ifdef ENABLE_FEAT_F4HWN_MEM
@@ -340,9 +343,6 @@ void UI_DisplayWelcome(void)
             ST7565_BlitStatusLine();
         #endif
         */
-
-        sprintf(WelcomeString3, "%s Edition", Edition);
-        UI_PrintStringSmallNormal(WelcomeString3, 0, 127, 6);
 
 #else
         UI_PrintStringSmallNormal(Version, 0, 127, 6);

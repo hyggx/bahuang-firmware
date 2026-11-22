@@ -140,6 +140,16 @@ const char * const g_str_zh[STR_COUNT] = {
     [STR_UI_WELCOME]        = "\xe4\xbd\xa0\xe5\xa5\xbd",                 /* 你好    */
     [STR_UI_WELCOME2]       = "\xe5\x85\xab\xe8\x8d\x92\xe5\x9b\xba\xe4\xbb\xb6", /* 八荒固件 */
     [STR_UI_SCAN_RANGE]     = "\xe8\x8c\x83\xe5\x9b\xb4",                 /* 范围    */
+
+    /* ── AirCopy screen ── */
+    [STR_AIR_READY]         = "\xe6\x97\xa0\xe7\xba\xbf\xe5\x85\x8b\xe9\x9a\x86(\xe5\xbe\x85\xe6\x9c\xba)", /* 无线克隆(待机) */
+    [STR_AIR_TRANSFER]      = "\xe6\x97\xa0\xe7\xba\xbf\xe5\x85\x8b\xe9\x9a\x86", /* 无线克隆 */
+    [STR_AIR_DONE]          = "\xe6\x97\xa0\xe7\xba\xbf\xe5\x85\x8b\xe9\x9a\x86(\xe5\xae\x8c\xe6\x88\x90)", /* 无线克隆(完成) */
+    [STR_AIR_RCV]           = "\xe6\x8e\xa5\xe6\x94\xb6:",                 /* 接收:   */
+    [STR_AIR_SND]           = "\xe5\x8f\x91\xe9\x80\x81:",                 /* 发送:   */
+    [STR_AIR_MEM]           = "\xe4\xbf\xa1\xe9\x81\x93 ",                 /* 信道    */
+    [STR_AIR_SETTINGS]      = "\xe8\xae\xbe\xe7\xbd\xae",                 /* 设置    */
+    [STR_UI_FW_NAME]        = "\xe5\x85\xab\xe8\x8d\x92\xe5\x9b\xba\xe4\xbb\xb6", /* 八荒固件 */
 };
 
 _Static_assert(sizeof(g_str_zh) / sizeof(g_str_zh[0]) == STR_COUNT,

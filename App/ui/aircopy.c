@@ -21,6 +21,7 @@
 #include "app/aircopy.h"
 #include "driver/st7565.h"
 #include "external/printf/printf.h"
+#include "l10n/strings.h"
 #include "misc.h"
 #include "radio.h"
 #include "ui/aircopy.h"
@@ -37,22 +38,22 @@ static int get_bit(uint8_t* array, int bit_index) {
 
 void UI_DisplayAircopy(void)
 {
-    char String[16] = { 0 };
-    char *pPrintStr = { 0 };
+    char String[24] = { 0 };
+    const char *pPrintStr;
     uint16_t percent;
 
     UI_DisplayClear();
 
     if (gAircopyState == AIRCOPY_READY) {
-        pPrintStr = "AIR COPY(RDY)";
+        pPrintStr = STR(STR_AIR_READY);
     } else if (gAircopyState == AIRCOPY_TRANSFER) {
-        pPrintStr = "AIR COPY";
+        pPrintStr = STR(STR_AIR_TRANSFER);
     } else {
-        pPrintStr = "AIR COPY(CMP)";
+        pPrintStr = STR(STR_AIR_DONE);
         gAircopyState = AIRCOPY_READY;
     }
 
-    UI_PrintString(pPrintStr, 2, 127, 0, 8);
+    UI_PrintStringAuto(pPrintStr, 2, 127, 0, 8);
 
     if (gInputBoxIndex == 0) {
         uint32_t frequency = gRxVfo->freq_config_RX.Frequency;
@@ -81,15 +82,15 @@ void UI_DisplayAircopy(void)
     percent = (doneBlocks * 10000) / currentMap->total_blocks;
 
     if (gAirCopyIsSendMode == 0) {
-        sprintf(String, "RCV:%02u.%02u%% E:%d", percent / 100, percent % 100, gErrorsDuringAirCopy);
+        sprintf(String, "%s%02u.%02u%% E:%d", STR(STR_AIR_RCV), percent / 100, percent % 100, gErrorsDuringAirCopy);
     } else if (gAirCopyIsSendMode == 1) {
-        sprintf(String, "SND:%02u.%02u%%", percent / 100, percent % 100);
+        sprintf(String, "%s%02u.%02u%%", STR(STR_AIR_SND), percent / 100, percent % 100);
     }
 
     // Draw gauge
     if(gAircopyStep != 0)
     {
-        UI_PrintString(String, 2, 127, 5, 8);
+        UI_PrintStringAuto(String, 2, 127, 5, 8);
 
         gFrameBuffer[4][1] = 0x3c;
         gFrameBuffer[4][2] = 0x42;
@@ -112,13 +113,13 @@ void UI_DisplayAircopy(void)
         memset(gFrameBuffer[6], 0, 128);
 
         if(gAircopyCurrentMapIndex < AIRCOPY_NUM_BANKS) {   
-            sprintf(String, "MEM %03u - %03u%", (gAircopyCurrentMapIndex * 128) + 1, (gAircopyCurrentMapIndex + 1) * 128);
+            sprintf(String, "%s%03u - %03u", STR(STR_AIR_MEM), (gAircopyCurrentMapIndex * 128) + 1, (gAircopyCurrentMapIndex + 1) * 128);
         }
         else
         {
-            sprintf(String, "Settings");            
+            strcpy(String, STR(STR_AIR_SETTINGS));
         }
-        UI_PrintString(String, 2, 127, 5, 8);
+        UI_PrintStringAuto(String, 2, 127, 5, 8);
     }
 
     if (doneBlocks > 0)
