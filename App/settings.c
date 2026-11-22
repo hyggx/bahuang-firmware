@@ -192,7 +192,9 @@ void SETTINGS_InitEEPROM(void)
         gEeprom.SET_KEY = ((Data[4] >> 2) & 0x0F) > 4 ? 0 : (Data[4] >> 2) & 0x0F;
         gEeprom.SET_NAV = (Data[4] & 0x40) != 0;
     #else
-        gEeprom.KEY_LOCK             = (Data[4] <  2) ? Data[4] : false;
+        // same bit layout as the rescue-ops build (bit 0 KEY_LOCK, bit 6 SET_NAV); erased flash keeps the defaults
+        gEeprom.KEY_LOCK             = (Data[4] != 0xFF) && (Data[4] & 0x01);
+        gEeprom.SET_NAV              = (Data[4] != 0xFF) && (Data[4] & 0x40);
     #endif
     #ifdef ENABLE_VOX
         gEeprom.VOX_SWITCH       = (Data[5] <  2) ? Data[5] : false;
@@ -960,7 +962,7 @@ void SETTINGS_SaveSettings(void)
             ((gEeprom.SET_KEY & 0x0F) << 2)      |
             (gEeprom.SET_NAV  ? 0x40 : 0);
     #else
-        State[4] = gEeprom.KEY_LOCK;
+        State[4] = (gEeprom.KEY_LOCK ? 0x01 : 0) | (gEeprom.SET_NAV ? 0x40 : 0);
     #endif
 
     #ifdef ENABLE_VOX
