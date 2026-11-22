@@ -151,9 +151,9 @@
 > 校准数据存储着对讲机出厂频率校准信息，丢失后将影响发射频率准确度，**请务必在刷机前备份**。
 
 1. 将对讲机**正常开机**后，用 USB 数据线连接电脑
-2. 用 **Chrome 或 Edge 浏览器**打开 [uvtools2](https://armel.github.io/uvtools2/?mode=dump)，切换到 **Dump** 标签
-3. 点击 `Dump Calibration Data`，选择串口
-4. 完成后点击 `Download calibration.dat` 保存到电脑
+2. 用 **Chrome 或 Edge 浏览器**打开 [uvtools2](https://armel.github.io/uvtools2/?mode=dump)，切换到 **导出校准数据** 标签
+3. 点击 `导出校准数据` 按钮，选择串口
+4. 完成后下载 `calibration.dat` 保存到电脑
 5. 建议用对讲机序列号重命名文件（序列号在电池仓背面标签上）
 
 ### 第二步：下载固件
@@ -189,9 +189,9 @@
 
 ### 第四步：刷入固件
 
-1. 用 **Chrome 或 Edge 浏览器**打开 [uvtools2](https://armel.github.io/uvtools2/?mode=flash)，切换到 **Flash** 标签
-2. 选择下载好的 `.bin` 固件文件
-3. 点击 `Flash Firmware`，选择对讲机对应的串口
+1. 用 **Chrome 或 Edge 浏览器**打开 [uvtools2](https://armel.github.io/uvtools2/?mode=flash)，切换到 **写入固件** 标签
+2. 选择下载好的 `.bin` 固件文件（“选择文件”按钮）
+3. 点击 `写入固件` 按钮，选择对讲机对应的串口
 4. 等待进度条走完，**期间不要拔线或断电**
 5. 对讲机自动重启，加载新固件完成 ✅
 
@@ -225,15 +225,15 @@
 ### 备份
 
 1. 对讲机**正常开机**，连接 USB 数据线
-2. 打开 [uvtools2](https://armel.github.io/uvtools2/?mode=dump)，切换到 **Dump** 标签
-3. 点击 `Dump Calibration Data` → 选串口 → 下载 `calibration.dat`
+2. 打开 [uvtools2](https://armel.github.io/uvtools2/?mode=dump)，切换到 **导出校准数据** 标签
+3. 点击 `导出校准数据` 按钮 → 选串口 → 下载 `calibration.dat`
 
 ### 恢复
 
 1. 对讲机**正常开机**，连接 USB 数据线
-2. 打开 [uvtools2](https://armel.github.io/uvtools2/?mode=restore)，切换到 **Restore** 标签
+2. 打开 [uvtools2](https://armel.github.io/uvtools2/?mode=restore)，切换到 **恢复校准数据** 标签
 3. 选择之前保存的 `calibration.dat` 文件
-4. 点击 `Restore Calibration Data`，等待完成
+4. 点击页面上的恢复按钮，等待完成
 
 ---
 
