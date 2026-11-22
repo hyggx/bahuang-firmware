@@ -20,13 +20,40 @@
 #include "dcs.h"
 #include "driver/st7565.h"
 #include "external/printf/printf.h"
+#include "l10n/strings.h"
 #include "misc.h"
 #include "ui/helper.h"
 #include "ui/scanner.h"
 
+// English keeps the original fixed-width renderer; other languages need the UTF-8 one.
+static void PrintText(const char *pString, uint8_t Start, bool bCentered, uint8_t Line)
+{
+    if (g_lang == LANG_EN) {
+        UI_PrintString(pString, Start, bCentered ? 127 : 0, Line, 8);
+        return;
+    }
+
+    uint8_t x = Start;
+
+    if (bCentered) {
+        unsigned int width = 0;
+
+        for (const uint8_t *p = (const uint8_t *)pString; *p; p++) {
+            if (*p >= 0xC0u)
+                width += 13u;       // CJK glyph + gap
+            else if (*p < 0x80u)
+                width += (*p == ' ') ? 4u : 8u;
+        }
+
+        x = (width < LCD_WIDTH) ? (uint8_t)((LCD_WIDTH - width) / 2u) : 0u;
+    }
+
+    UI_PrintStringUTF8(pString, x, Line);
+}
+
 void UI_DisplayScanner(void)
 {
-    char  String[16] = {0};
+    char  String[24] = {0};
     char *pPrintStr = String;
     bool bCentered;
     uint8_t Start;
@@ -34,28 +61,27 @@ void UI_DisplayScanner(void)
     UI_DisplayClear();
 
     if (gScanSingleFrequency || (gScanCssState != SCAN_CSS_STATE_OFF && gScanCssState != SCAN_CSS_STATE_FAILED)) {
-        sprintf(String, "FREQ:%u.%05u", gScanFrequency / 100000, gScanFrequency % 100000);
-        pPrintStr = String;
+        sprintf(String, "%s%u.%05u", STR(STR_SCAN_FREQ), gScanFrequency / 100000, gScanFrequency % 100000);
     } else {
-        pPrintStr = "FREQ:**.*****";
+        sprintf(String, "%s**.*****", STR(STR_SCAN_FREQ));
     }
+    pPrintStr = String;
 
-    UI_PrintString(pPrintStr, 2, 0, 1, 8);
+    PrintText(pPrintStr, 2, false, 1);
 
     if (gScanCssState < SCAN_CSS_STATE_FOUND || !gScanUseCssResult) {
-        pPrintStr = "CTC:******";
+        sprintf(String, "%s******", STR(STR_SCAN_CTC));
     } else if (gScanCssResultType == CODE_TYPE_CONTINUOUS_TONE) {
-        sprintf(String, "CTC:%u.%uHz", CTCSS_Options[gScanCssResultCode] / 10, CTCSS_Options[gScanCssResultCode] % 10);
-        pPrintStr = String;
+        sprintf(String, "%s%u.%uHz", STR(STR_SCAN_CTC), CTCSS_Options[gScanCssResultCode] / 10, CTCSS_Options[gScanCssResultCode] % 10);
     } else {
         sprintf(String, "DCS:D%03oN", DCS_Options[gScanCssResultCode]);
-        pPrintStr = String;
     }
+    pPrintStr = String;
 
-    UI_PrintString(pPrintStr, 2, 0, 3, 8);
+    PrintText(pPrintStr, 2, false, 3);
     memset(String, 0, sizeof(String));
     if (gScannerSaveState == SCAN_SAVE_CHANNEL) {
-        pPrintStr = "SAVE?";
+        pPrintStr = (char *)STR(STR_SCAN_SAVE_ASK);
         Start     = 0;
         bCentered = 1;
     } else {
@@ -63,21 +89,21 @@ void UI_DisplayScanner(void)
         bCentered = 0;
 
         if (gScannerSaveState == SCAN_SAVE_CHAN_SEL) {
-            strcpy(String, "SAVE:");
-            UI_GenerateChannelStringEx(String + 5, gShowChPrefix, gScanChannel);
+            strcpy(String, STR(STR_SCAN_SAVE));
+            UI_GenerateChannelStringEx(String + strlen(String), gShowChPrefix, gScanChannel);
             pPrintStr = String;
         } else if (gScanCssState < SCAN_CSS_STATE_FOUND) {
-            strcpy(String, "SCAN");
-            memset(String + 4, '.', (gScanProgressIndicator & 7) + 1);
+            strcpy(String, STR(STR_SCAN_SCANNING));
+            memset(String + strlen(String), '.', (gScanProgressIndicator & 7) + 1);
             pPrintStr = String;
         } else if (gScanCssState == SCAN_CSS_STATE_FOUND) {
-            pPrintStr = "SCAN CMP.";
+            pPrintStr = (char *)STR(STR_SCAN_DONE);
         } else {
-            pPrintStr = "SCAN FAIL.";
+            pPrintStr = (char *)STR(STR_SCAN_FAIL);
         }
     }
 
-    UI_PrintString(pPrintStr, Start, bCentered ? 127 : 0, 5, 8);
+    PrintText(pPrintStr, Start, bCentered, 5);
 
     ST7565_BlitFullScreen();
 }

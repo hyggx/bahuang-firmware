@@ -120,6 +120,15 @@ const char * const g_str_zh[STR_COUNT] = {
     [STR_UI_SAVED]          = "\xe5\xb7\xb2\xe4\xbf\x9d\xe5\xad\x98", /* 已保存 */
     [STR_UI_DELETED]        = "\xe5\xb7\xb2\xe5\x88\xa0\xe9\x99\xa4", /* 已删除 */
     [STR_MENU_LANG]         = "\xe8\xaf\xad\xe8\xa8\x80",           /* 语言   */
+
+    /* ── Frequency scanner screen ── */
+    [STR_SCAN_FREQ]         = "\xe9\xa2\x91\xe7\x8e\x87:",         /* 频率:   */
+    [STR_SCAN_CTC]          = "\xe4\xba\x9a\xe9\x9f\xb3:",         /* 亚音:   */
+    [STR_SCAN_SAVE_ASK]     = "\xe4\xbf\x9d\xe5\xad\x98?",         /* 保存?   */
+    [STR_SCAN_SAVE]         = "\xe4\xbf\x9d\xe5\xad\x98:",         /* 保存:   */
+    [STR_SCAN_SCANNING]     = "\xe6\x89\xab\xe6\x8f\x8f",           /* 扫描    */
+    [STR_SCAN_DONE]         = "\xe6\x89\xab\xe6\x8f\x8f\xe5\xae\x8c\xe6\x88\x90", /* 扫描完成 */
+    [STR_SCAN_FAIL]         = "\xe6\x97\xa0\xe7\xbb\x93\xe6\x9e\x9c", /* 无结果  */
 };
 
 _Static_assert(sizeof(g_str_zh) / sizeof(g_str_zh[0]) == STR_COUNT,

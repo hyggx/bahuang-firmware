@@ -133,6 +133,15 @@ typedef enum {
     STR_UI_SAVED,           /* Saved      / 已保存  */
     STR_UI_DELETED,         /* Deleted    / 已删除  */
 
+    /* ── Frequency scanner screen (F+4) ── */
+    STR_SCAN_FREQ,          /* FREQ:      / 频率:   */
+    STR_SCAN_CTC,           /* CTC:       / 亚音:   */
+    STR_SCAN_SAVE_ASK,      /* SAVE?      / 保存?   */
+    STR_SCAN_SAVE,          /* SAVE:      / 保存:   */
+    STR_SCAN_SCANNING,      /* SCAN       / 扫描    */
+    STR_SCAN_DONE,          /* SCAN CMP.  / 扫描完成 */
+    STR_SCAN_FAIL,          /* SCAN FAIL. / 无结果  */
+
     STR_COUNT   /* must be last */
 } StrId_t;
 

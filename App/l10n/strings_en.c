@@ -114,6 +114,15 @@ const char * const g_str_en[STR_COUNT] = {
     [STR_UI_SAVED]          = "Saved",
     [STR_UI_DELETED]        = "Deleted",
     [STR_MENU_LANG]         = "Lang",
+
+    /* ── Frequency scanner screen ── */
+    [STR_SCAN_FREQ]         = "FREQ:",
+    [STR_SCAN_CTC]          = "CTC:",
+    [STR_SCAN_SAVE_ASK]     = "SAVE?",
+    [STR_SCAN_SAVE]         = "SAVE:",
+    [STR_SCAN_SCANNING]     = "SCAN",
+    [STR_SCAN_DONE]         = "SCAN CMP.",
+    [STR_SCAN_FAIL]         = "SCAN FAIL.",
 };
 
 _Static_assert(sizeof(g_str_en) / sizeof(g_str_en[0]) == STR_COUNT,
