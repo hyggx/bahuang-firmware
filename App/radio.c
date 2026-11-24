@@ -233,6 +233,16 @@ void RADIO_InitInfo(VFO_Info_t *pInfo, const uint16_t ChannelSave, const uint32_
     RADIO_ConfigureSquelchAndOutputPower(pInfo);
 }
 
+// Blank VFO slot (fresh flash): amateur 2 m / 70 cm calling frequencies, otherwise the band start.
+static uint32_t RADIO_DefaultVfoFrequency(const uint8_t band)
+{
+    if (band == BAND3_137MHz)
+        return 14550000;
+    if (band == BAND6_400MHz)
+        return 43350000;
+    return frequencyBandTable[band].lower;
+}
+
 void RADIO_ValidateAndSetCode(FREQ_Config_t *pFreq_Config, uint8_t tmp) {
     switch (pFreq_Config->CodeType) {
         default:
@@ -304,7 +314,7 @@ void RADIO_ConfigureChannel(const unsigned int VFO, const unsigned int configure
         }
 
         uint16_t bandIdx = channel - FREQ_CHANNEL_FIRST;
-        RADIO_InitInfo(pVfo, channel, frequencyBandTable[bandIdx].lower);
+        RADIO_InitInfo(pVfo, channel, RADIO_DefaultVfoFrequency(bandIdx));
         return;
     }
 
@@ -414,7 +424,7 @@ void RADIO_ConfigureChannel(const unsigned int VFO, const unsigned int configure
         } __attribute__((packed)) info;
         PY25Q16_ReadBuffer(base, &info, sizeof(info));
         if(info.Frequency==0xFFFFFFFF)
-            pVfo->freq_config_RX.Frequency = frequencyBandTable[band].lower;
+            pVfo->freq_config_RX.Frequency = IS_FREQ_CHANNEL(channel) ? RADIO_DefaultVfoFrequency(band) : frequencyBandTable[band].lower;
         else
             pVfo->freq_config_RX.Frequency = info.Frequency;
 
