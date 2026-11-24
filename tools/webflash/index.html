@@ -196,6 +196,8 @@ class SerialSession {
     this._buf   = [];
     this._waiter = null;   // { resolve, reject }
     this._alive  = false;
+    this.rxBytes = 0;      // diagnostics: everything received since open
+    this.rxHead  = [];
   }
 
   async open() {
@@ -206,6 +208,7 @@ class SerialSession {
     this.reader = this.port.readable.getReader();
     this._alive = true;
     this._readLoop();
+    await new Promise(r => setTimeout(r, 500));   // let the port settle, as uvtools2 does
   }
 
   async _readLoop() {
@@ -214,6 +217,8 @@ class SerialSession {
         const { value, done } = await this.reader.read();
         if (done) break;
         if (value) {
+          this.rxBytes += value.length;
+          for (const b of value) { if (this.rxHead.length < 16) this.rxHead.push(b); }
           for (const b of value) this._buf.push(b);
           this._tryFrame();
         }
@@ -537,8 +542,11 @@ elFlash.addEventListener('click', async () => {
     }
   } catch (e) {
     log(`错误: ${e.message}`, 'l-err');
-    if (/^Timeout/.test(e.message))
+    if (/^Timeout/.test(e.message)) {
+      const head = session.rxHead.map(b => b.toString(16).padStart(2,'0')).join(' ');
+      log(`诊断：串口打开期间共收到 ${session.rxBytes} 字节${head ? '，开头：' + head : ''}`, 'l-info');
       log('对讲机没有应答。请确认：对讲机是正常开机（如果进了 DFU 刷机模式，请关机后重新正常开机）、选的是对讲机的串口、没有其他软件占用串口；然后重新插拔 USB 再试。', 'l-info');
+    }
     elPLabel.textContent = '出错，请查看日志。';
   } finally {
     if (session) { try { await session.close(); } catch(_) {} session = null; }
