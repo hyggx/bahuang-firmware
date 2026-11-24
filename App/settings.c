@@ -178,7 +178,7 @@ void SETTINGS_InitEEPROM(void)
     // 0E70..0E77
     PY25Q16_ReadBuffer(0x00A000, Data, 8);
     #ifdef ENABLE_FEAT_F4HWN_AUDIO
-        gSetting_set_audio_fm = ((Data[0] & 0x0F) < 5) ? (Data[0] & 0x0F) : 0;
+        gSetting_set_audio_fm = ((Data[0] & 0x0F) < 5) ? (Data[0] & 0x0F) : 3;   // default BOOST
         gSetting_set_audio_am = (((Data[0] >> 4) & 0x0F) < 3) ? ((Data[0] >> 4) & 0x0F) : 0;
     #endif
     gEeprom.SQUELCH_LEVEL        = (Data[1] < 10) ? Data[1] : 2;
@@ -275,7 +275,8 @@ gEeprom.FreqChannel[1]   = IS_FREQ_CHANNEL(Data16[5]) ? Data16[5] : (FREQ_CHANNE
         } __attribute__((packed)) fmCfg;
         PY25Q16_ReadBuffer(0x00A020, &fmCfg, 4);
 
-        gEeprom.FM_Band = fmCfg.band;
+        // erased flash reads band bits as 3 (64-76 MHz); default to 87.5-108 MHz
+        gEeprom.FM_Band = (fmCfg.selFreq == 0xFFFF) ? 0 : fmCfg.band;
         //gEeprom.FM_Space = fmCfg.space;
 
         uint16_t freqLoLimit = BK1080_GetFreqLoLimit(gEeprom.FM_Band);
@@ -1466,7 +1467,7 @@ State[1] = 0
         uint8_t State[8];
         // 0x1F88
         PY25Q16_ReadBuffer(0x010000 + 0x188, State, sizeof(State));
-        State[6] = gEeprom.VOLUME_GAIN;
+        State[6] = gEeprom.VOLUME_GAIN_BACKUP;   // never the transient muted 0
         PY25Q16_WriteBuffer(0x010000 + 0x188, State, sizeof(State), false);
     }
 #endif
