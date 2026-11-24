@@ -208,6 +208,8 @@ class SerialSession {
 
   async open() {
     await this.port.open({ baudRate: BAUD_RATE });
+    // The radio's USB serial only answers while DTR is asserted
+    try { await this.port.setSignals({ dataTerminalReady: true, requestToSend: true }); } catch (_) {}
     this.writer = this.port.writable.getWriter();
     this.reader = this.port.readable.getReader();
     this._alive = true;
@@ -252,13 +254,13 @@ class SerialSession {
   }
 
   // Send frame, wait for reply with expectedId (or timeout)
-  sendRecv(frame, expectedId) {
+  sendRecv(frame, expectedId, timeoutMs = TIMEOUT_MS) {
     this._buf = [];  // discard stale bytes
     return new Promise((resolve, reject) => {
       const timer = setTimeout(() => {
         this._waiter = null;
         reject(new Error(`Timeout waiting for reply 0x${expectedId.toString(16).padStart(4,'0')}`));
-      }, TIMEOUT_MS);
+      }, timeoutMs);
 
       this._waiter = {
         resolve: raw => {
@@ -290,10 +292,18 @@ class SerialSession {
 
 // CMD_0514 → 0x0515  session init / handshake
 async function cmdHandshake(s) {
-  const ts    = (Date.now() / 1000) >>> 0;
-  const rep   = await s.sendRecv(buildFrame(0x0514, u32le(ts)), 0x0515);
-  const ver   = new TextDecoder().decode(rep.slice(0, 16)).replace(/\0/g,'').trim();
-  return { version: ver, ts };
+  const ATTEMPTS = 5;
+  for (let i = 1; ; i++) {
+    const ts = (Date.now() / 1000) >>> 0;
+    try {
+      const rep = await s.sendRecv(buildFrame(0x0514, u32le(ts)), 0x0515, 3000);
+      const ver = new TextDecoder().decode(rep.slice(0, 16)).replace(/\0/g,'').trim();
+      return { version: ver, ts };
+    } catch (e) {
+      if (i >= ATTEMPTS || !/^Timeout/.test(e.message)) throw e;
+      log(`握手无响应，重试 ${i}/${ATTEMPTS - 1}…`, 'l-info');
+    }
+  }
 }
 
 // CMD_051D → 0x051E  EEPROM write (8-byte blocks, virtual addr)
@@ -478,6 +488,8 @@ elConnect.addEventListener('click', async () => {
     log(`握手成功  固件版本: ${version}`, 'l-ok');
   } catch (e) {
     log(`连接失败: ${e.message}`, 'l-err');
+    if (/^Timeout/.test(e.message))
+      log('请确认：对讲机已正常开机（不是 DFU 模式）、选的是对讲机的串口、没有其他软件占用串口；然后重新插拔 USB 再试。', 'l-info');
     try { await session.close(); } catch(_) {}
     session = null;
     setConnected(false);
