@@ -51,18 +51,18 @@ const uint16_t    lowBatteryPeriod = 30;
 volatile uint16_t gPowerSave_10ms;
 
 const uint16_t Voltage2PercentageTable[][7][2] = {
+    // 1600 / 2200 / 2600 / 3500 mAh K6: generic 2S Li-ion curve, not measured on hardware.
+    // Capacity barely changes voltage vs. state of charge, so the K6 packs share the same points.
     [BATTERY_TYPE_1600_MAH] = {
-        {828, 100},
-        {814, 97 },
-        {760, 25 },
-        {729, 6  },
-        {630, 0  },
-        {0,   0  },
-        {0,   0  },
+        {830, 100},
+        {819, 90 },
+        {787, 70 },
+        {761, 45 },
+        {743, 20 },
+        {710, 5  },
+        {650, 0  },
     },
 
-    // 2200 / 2600 / 3500 mAh K6 (third-party packs): generic 2S Li-ion curve, not measured on hardware.
-    // Capacity barely changes voltage vs. state of charge, so the three packs share the same points.
     [BATTERY_TYPE_2200_MAH] = {
         {830, 100},
         {819, 90 },
@@ -150,7 +150,7 @@ void BATTERY_GetReadings(const bool bDisplayBatteryLevel)
 
     if(gBatteryVoltageAverage > 890)
         gBatteryDisplayLevel = 7; // battery overvoltage
-    else if(gBatteryVoltageAverage < (gEeprom.BATTERY_TYPE == BATTERY_TYPE_1600_MAH ? 630 : 650))
+    else if(gBatteryVoltageAverage < 650)
         gBatteryDisplayLevel = 0; // battery critical (0% of the curve)
     else {
         gBatteryDisplayLevel = 1;
