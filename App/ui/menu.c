@@ -342,6 +342,8 @@ const t_menu_item MenuList[] =
     {"SetKey",      MENU_SET_KEY,       MENU_CAT_SYSTEM},
     #endif
     {"Lang",        MENU_LANG,          MENU_CAT_SYSTEM}, // UI language EN/ZH
+    {"BatTyp",      MENU_BATTYP,        MENU_CAT_SYSTEM}, // battery type
+    {"BatCal",      MENU_BATCAL,        MENU_CAT_SYSTEM}, // battery voltage calibration
     {"SysInf",      MENU_VOL,           MENU_CAT_SYSTEM}, // system info (last)
 #endif
 
@@ -359,8 +361,10 @@ const t_menu_item MenuList[] =
 #ifdef ENABLE_F_CAL_MENU
     {"FrCali",      MENU_F_CALI,        MENU_CAT_NONE}, // reference xtal calibration
 #endif
+#ifndef ENABLE_FEAT_F4HWN
     {"BatCal",      MENU_BATCAL,        MENU_CAT_NONE}, // battery voltage calibration
-    {"BatTyp",      MENU_BATTYP,        MENU_CAT_NONE}, // battery type 1600/2200mAh
+    {"BatTyp",      MENU_BATTYP,        MENU_CAT_NONE}, // battery type
+#endif
     {"SetNav",      MENU_SET_NAV,       MENU_CAT_NONE}, // set navigation direction
     {"Reset",       MENU_RESET,         MENU_CAT_NONE}, // factory reset
 
