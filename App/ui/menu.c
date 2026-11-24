@@ -527,9 +527,10 @@ const char gSubMenu_BAT_TXT[][8] =
 
 const char gSubMenu_BATTYP[][12] =
 {
-    "1600mAh K5",
-    "2200mAh K5",
-    "3500mAh K5",
+    "1600mAh K6",
+    "2200mAh K6",
+    "2600mAh K6",
+    "3500mAh K6",
     "1400mAh K1",
     "2500mAh K1"
 };

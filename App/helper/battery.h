@@ -35,11 +35,12 @@ extern uint16_t          gBatteryCheckCounter;
 extern volatile uint16_t gPowerSave_10ms;
 
 typedef enum {
-    BATTERY_TYPE_1600_MAH,
-    BATTERY_TYPE_2200_MAH,
-    BATTERY_TYPE_3500_MAH,
-    BATTERY_TYPE_1500_MAH,
-    BATTERY_TYPE_2500_MAH,
+    BATTERY_TYPE_1600_MAH,   // K6
+    BATTERY_TYPE_2200_MAH,   // K6
+    BATTERY_TYPE_2600_MAH,   // K6
+    BATTERY_TYPE_3500_MAH,   // K6
+    BATTERY_TYPE_1400_MAH,   // K1
+    BATTERY_TYPE_2500_MAH,   // K1
     BATTERY_TYPE_UNKNOWN
 } BATTERY_Type_t;
 

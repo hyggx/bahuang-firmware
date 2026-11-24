@@ -61,28 +61,40 @@ const uint16_t Voltage2PercentageTable[][7][2] = {
         {0,   0  },
     },
 
+    // 2200 / 2600 / 3500 mAh K6 (third-party packs): generic 2S Li-ion curve, not measured on hardware.
+    // Capacity barely changes voltage vs. state of charge, so the three packs share the same points.
     [BATTERY_TYPE_2200_MAH] = {
-        {832, 100},
-        {813, 95 },
-        {740, 60 },
-        {707, 21 },
-        {682, 5  },
-        {630, 0  },
-        {0,   0  },
+        {830, 100},
+        {819, 90 },
+        {787, 70 },
+        {761, 45 },
+        {743, 20 },
+        {710, 5  },
+        {650, 0  },
+    },
+
+    [BATTERY_TYPE_2600_MAH] = {
+        {830, 100},
+        {819, 90 },
+        {787, 70 },
+        {761, 45 },
+        {743, 20 },
+        {710, 5  },
+        {650, 0  },
     },
 
     [BATTERY_TYPE_3500_MAH] = {
-        {837, 100},
-        {826, 95 },
-        {750, 50 },
-        {700, 25 },
-        {620, 5  },
-        {600, 0  },
-        {0,   0  },
+        {830, 100},
+        {819, 90 },
+        {787, 70 },
+        {761, 45 },
+        {743, 20 },
+        {710, 5  },
+        {650, 0  },
     },
 
     // UV-K1 standard pack (1400 mAh, 2S Li-ion), typical loaded curve, not measured on hardware
-    [BATTERY_TYPE_1500_MAH] = {
+    [BATTERY_TYPE_1400_MAH] = {
         {830, 100},
         {819, 90 },
         {787, 70 },
@@ -138,12 +150,8 @@ void BATTERY_GetReadings(const bool bDisplayBatteryLevel)
 
     if(gBatteryVoltageAverage > 890)
         gBatteryDisplayLevel = 7; // battery overvoltage
-    else if(gBatteryVoltageAverage < 630 && (gEeprom.BATTERY_TYPE == BATTERY_TYPE_1600_MAH || gEeprom.BATTERY_TYPE == BATTERY_TYPE_2200_MAH))
-        gBatteryDisplayLevel = 0; // battery critical
-    else if(gBatteryVoltageAverage < 600 && (gEeprom.BATTERY_TYPE == BATTERY_TYPE_3500_MAH))
-        gBatteryDisplayLevel = 0; // battery critical
-    else if(gBatteryVoltageAverage < 650 && (gEeprom.BATTERY_TYPE == BATTERY_TYPE_1500_MAH || gEeprom.BATTERY_TYPE == BATTERY_TYPE_2500_MAH))
-        gBatteryDisplayLevel = 0; // battery critical (0% of the K1 curve)
+    else if(gBatteryVoltageAverage < (gEeprom.BATTERY_TYPE == BATTERY_TYPE_1600_MAH ? 630 : 650))
+        gBatteryDisplayLevel = 0; // battery critical (0% of the curve)
     else {
         gBatteryDisplayLevel = 1;
         const uint8_t levels[] = {5,10,25,50,75}; // empty frame >5%, 1 bar >10%, 2 >25%, 3 >50%, 4 >75%
