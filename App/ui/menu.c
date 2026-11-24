@@ -237,11 +237,11 @@ const t_menu_item MenuList[] =
 #endif
 
 // ── 信道管理 (CHANMGR) ─ channel CRUD + scan lists ─────────────────────────
-    {"ChList",      MENU_LIST_CH,       MENU_CAT_CHANMGR},
     {"ChSave",      MENU_MEM_CH,        MENU_CAT_CHANMGR}, // was "MEM-CH"
     {"ChName",      MENU_MEM_NAME,      MENU_CAT_CHANMGR},
     {"ChDele",      MENU_DEL_CH,        MENU_CAT_CHANMGR}, // was "DEL-CH"
     {"1 Call",      MENU_1_CALL,        MENU_CAT_CHANMGR},
+    {"ChList",      MENU_LIST_CH,       MENU_CAT_CHANMGR},
     {"ScList",      MENU_S_LIST,        MENU_CAT_CHANMGR},
     {"ScPri",       MENU_S_PRI,         MENU_CAT_CHANMGR},
     {"PriCh1",      MENU_S_PRI_CH_1,    MENU_CAT_CHANMGR},
