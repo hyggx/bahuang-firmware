@@ -168,28 +168,11 @@ int32_t TX_freq_check(const uint32_t Frequency)
 
     switch (gSetting_F_LOCK)
     {
-        case F_LOCK_DEF:
+        case F_LOCK_DEF:   // default: TX only in 137-174 MHz and 400-470 MHz
             if (Frequency >= frequencyBandTable[BAND3_137MHz].lower && Frequency < frequencyBandTable[BAND3_137MHz].upper)
                 return 0;
-            if (Frequency >= frequencyBandTable[BAND4_174MHz].lower && Frequency < frequencyBandTable[BAND4_174MHz].upper)
-            #ifndef ENABLE_FEAT_F4HWN
-                if (gSetting_200TX)
-            #endif
-                    return 0;
-            if (Frequency >= frequencyBandTable[BAND5_350MHz].lower && Frequency < frequencyBandTable[BAND5_350MHz].upper)
-            #ifndef ENABLE_FEAT_F4HWN
-                if (gSetting_350TX && gSetting_350EN)
-            #else
-                if (gSetting_350EN)                
-            #endif
-                    return 0;
             if (Frequency >= frequencyBandTable[BAND6_400MHz].lower && Frequency < frequencyBandTable[BAND6_400MHz].upper)
                 return 0;
-            if (Frequency >= frequencyBandTable[BAND7_470MHz].lower && Frequency <= 60000000)
-            #ifndef ENABLE_FEAT_F4HWN
-                if (gSetting_500TX)
-            #endif
-                    return 0;
             break;
 
         case F_LOCK_FCC:
