@@ -71,16 +71,8 @@ button:disabled{opacity:.35;cursor:not-allowed}
 </div>
 
 <div class="card">
-  <div class="card-title">第二步 · 连接串口</div>
-  <div class="row">
-    <button id="btn-connect">连接串口</button>
-    <span id="connect-status"><span class="dot"></span>未连接</span>
-  </div>
-  <div id="fw-info"></div>
-</div>
-
-<div class="card">
-  <div class="card-title">第三步 · 刷写字体</div>
+  <div class="card-title">第二步 · 刷写字体</div>
+  <div class="file-info" style="margin:0 0 .6rem">对讲机请<strong>正常开机</strong>后再点击（不要进入 DFU 刷机模式，不要按 PTT 开机），点击后会弹出串口选择框，选定后自动开始刷写。</div>
   <button id="btn-flash" disabled>开始刷写</button>
   <div class="opt-row">
     <input type="checkbox" id="chk-verify" checked>
@@ -347,10 +339,7 @@ let fontData = null;
 
 const elFile      = document.getElementById('font-file');
 const elFileInfo  = document.getElementById('file-info');
-const elConnect   = document.getElementById('btn-connect');
 const elFlash     = document.getElementById('btn-flash');
-const elStatus    = document.getElementById('connect-status');
-const elFwInfo    = document.getElementById('fw-info');
 const elPWrap     = document.getElementById('progress-wrap');
 const elPBar      = document.getElementById('progress-bar');
 const elPLabel    = document.getElementById('progress-label');
@@ -368,20 +357,6 @@ function log(msg, cls = '') {
 function setProgress(pct, phase) {
   elPBar.style.width = pct + '%';
   elPBar.className = 'progress-bar' + (phase === 'verify' ? ' ok' : '');
-}
-
-function setConnected(ok, label = '') {
-  if (ok) {
-    elStatus.innerHTML = `<span class="dot ok"></span>${label}`;
-    elConnect.textContent = '断开串口';
-    elConnect.className = 'is-connected';
-  } else {
-    elStatus.innerHTML = `<span class="dot"></span>未连接`;
-    elConnect.textContent = '连接串口';
-    elConnect.className = '';
-    elFwInfo.textContent = '';
-  }
-  elFlash.disabled = !(ok && fontData);
 }
 
 // ─── File picker ──────────────────────────────────────────────────────────
@@ -456,52 +431,24 @@ elFile.addEventListener('change', async e => {
     elFileInfo.className = 'file-info eeprom';
     elFileInfo.textContent = `${f.name}  ·  ${fontData.length.toLocaleString()} 字节  ·  EEPROM 虚地址路径`;
   }
-  elFlash.disabled = !session;
+  elFlash.disabled = !('serial' in navigator);
 });
 
-// ─── Connect / disconnect ─────────────────────────────────────────────────
-elConnect.addEventListener('click', async () => {
-  if (session) {
-    await session.close();
-    session = null;
-    setConnected(false);
-    log('串口已断开。', 'l-info');
-    return;
-  }
+// ─── Flash ────────────────────────────────────────────────────────────────
+elFlash.addEventListener('click', async () => {
+  if (!fontData) return;
 
   if (!('serial' in navigator)) {
     document.getElementById('no-serial').style.display = 'block';
     return;
   }
 
+  // Must be the first await so the click's user activation is still valid
   let port;
   try { port = await navigator.serial.requestPort(); }
   catch (e) { if (e.name !== 'AbortError') log(`选择串口失败: ${e.message}`, 'l-err'); return; }
 
-  try {
-    session = new SerialSession(port);
-    await session.open();
-    log('串口已打开，握手中…', 'l-info');
-    const { version } = await cmdHandshake(session);
-    setConnected(true, '已连接');
-    elFwInfo.textContent = `固件版本：${version}`;
-    log(`握手成功  固件版本: ${version}`, 'l-ok');
-  } catch (e) {
-    log(`连接失败: ${e.message}`, 'l-err');
-    if (/^Timeout/.test(e.message))
-      log('请确认：对讲机已正常开机（不是 DFU 模式）、选的是对讲机的串口、没有其他软件占用串口；然后重新插拔 USB 再试。', 'l-info');
-    try { await session.close(); } catch(_) {}
-    session = null;
-    setConnected(false);
-  }
-});
-
-// ─── Flash ────────────────────────────────────────────────────────────────
-elFlash.addEventListener('click', async () => {
-  if (!session || !fontData) return;
-
   elFlash.disabled   = true;
-  elConnect.disabled = true;
   elPWrap.style.display = 'block';
   setProgress(0, 'write');
   elPLabel.textContent = '';
@@ -516,6 +463,9 @@ elFlash.addEventListener('click', async () => {
   log(`写入路径 : ${useSpi ? 'SPI 直写 CMD_0535/0537  (ENABLE_UART_SPI_WRITE)' : 'EEPROM 虚地址 CMD_051D/051B'}`, 'l-info');
 
   try {
+    session = new SerialSession(port);
+    await session.open();
+    log('串口已打开，握手中…', 'l-info');
     const { version, ts } = await cmdHandshake(session);
     log(`固件版本 : ${version}`, 'l-info');
 
@@ -587,17 +537,19 @@ elFlash.addEventListener('click', async () => {
     }
   } catch (e) {
     log(`错误: ${e.message}`, 'l-err');
+    if (/^Timeout/.test(e.message))
+      log('对讲机没有应答。请确认：对讲机是正常开机（如果进了 DFU 刷机模式，请关机后重新正常开机）、选的是对讲机的串口、没有其他软件占用串口；然后重新插拔 USB 再试。', 'l-info');
     elPLabel.textContent = '出错，请查看日志。';
   } finally {
+    if (session) { try { await session.close(); } catch(_) {} session = null; }
     elFlash.disabled   = false;
-    elConnect.disabled = false;
   }
 });
 
 // ─── Check WebSerial support on load ─────────────────────────────────────
 if (!('serial' in navigator)) {
   document.getElementById('no-serial').style.display = 'block';
-  elConnect.disabled = true;
+  elFlash.disabled = true;
 }
 </script>
 </body>
