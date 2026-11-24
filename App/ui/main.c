@@ -964,33 +964,20 @@ void DisplayRSSIBar(const bool now)
     }
     int16_t rssi_dBm = rssi_disp_dBm;
 
-    // IARU VHF/UHF S-meter: S9 = -93 dBm, 1 S-unit = 6 dB
-    // S(n) threshold = -93 + (n - 9) * 6
+    // IARU R.1 for VHF/UHF: S9 = -93 dBm (5 uV / 50 ohm), 6 dB per S unit, S0 = -147 dBm
     uint8_t s_level    = 0;
     uint8_t overS9dBm  = 0;
     uint8_t overS9Bars = 0;
 
-    // if      (rssi_dBm >= -93)  s_level = 9;  // S9  = -93 dBm
-    // else if (rssi_dBm >= -99)  s_level = 8;  // S8  = -99 dBm
-    // else if (rssi_dBm >= -105) s_level = 7;  // S7  = -105 dBm
-    // else if (rssi_dBm >= -111) s_level = 6;  // S6  = -111 dBm
-    // else if (rssi_dBm >= -117) s_level = 5;  // S5  = -117 dBm
-    // else if (rssi_dBm >= -123) s_level = 4;  // S4  = -123 dBm
-    // else if (rssi_dBm >= -129) s_level = 3;  // S3  = -129 dBm
-    // else if (rssi_dBm >= -135) s_level = 2;  // S2  = -135 dBm
-    // else if (rssi_dBm >= -141) s_level = 1;  // S1  = -141 dBm
-    // else                       s_level = 0;  // S0 (below -141 dBm)
-
-    // IARU HF / practical VHF/UHF: S9 = -73 dBm, S0 = -127 dBm, 6 dB/unit
-    if (rssi_dBm >= -73)
+    if (rssi_dBm >= -93)
         s_level = 9;
-    else if (rssi_dBm <= -127)
+    else if (rssi_dBm <= -147)
         s_level = 0;
     else
-        s_level = (uint8_t)((rssi_dBm + 127) * 9 / 54);
+        s_level = (uint8_t)((rssi_dBm + 147) * 9 / 54);
 
     if (s_level == 9) {
-        overS9dBm  = (uint8_t)MIN(rssi_dBm - (-73), 99);
+        overS9dBm  = (uint8_t)MIN(rssi_dBm - (-93), 99);
         overS9Bars = MIN(overS9dBm / 10, 4);
     }
     const int16_t display_rssi_dBm = rssi_dBm;
