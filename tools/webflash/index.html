@@ -228,26 +228,31 @@ class SerialSession {
 
   _tryFrame() {
     const buf = this._buf;
-    if (buf.length < 6) return;
+    for (;;) {
+      // Locate 0xABCD
+      let start = -1;
+      for (let i = 0; i <= buf.length - 2; i++) {
+        if (buf[i] === 0xAB && buf[i+1] === 0xCD) { start = i; break; }
+      }
+      if (start < 0 || start + 4 > buf.length) return;
 
-    // Locate 0xABCD
-    let start = -1;
-    for (let i = 0; i <= buf.length - 2; i++) {
-      if (buf[i] === 0xAB && buf[i+1] === 0xCD) { start = i; break; }
+      // Reply layout: 0xABCD + size(u16le) + payload(size) + 2 padding bytes + 0xDCBA
+      const size        = buf[start+2] | (buf[start+3] << 8);
+      const totalNeeded = 4 + size + 4;
+      if (buf.length < start + totalNeeded) return;
+
+      const endPos = start + totalNeeded - 2;
+      if (buf[endPos] !== 0xDC || buf[endPos+1] !== 0xBA) {
+        buf.splice(0, start + 2);   // not a frame, resync past this marker
+        continue;
+      }
+
+      const frame  = new Uint8Array(buf.splice(start, totalNeeded));
+      const waiter = this._waiter;
+      this._waiter = null;
+      if (waiter) waiter.resolve(frame);
+      return;
     }
-    if (start < 0 || start + 4 > buf.length) return;
-
-    const size        = buf[start+2] | (buf[start+3] << 8);
-    const totalNeeded = 2 + 2 + size + 2;  // 0xABCD + sizeField + data + 0xDCBA
-    if (buf.length < start + totalNeeded) return;
-
-    const endPos = start + totalNeeded - 2;
-    if (buf[endPos] !== 0xDC || buf[endPos+1] !== 0xBA) return;
-
-    const frame  = new Uint8Array(buf.splice(start, totalNeeded));
-    const waiter = this._waiter;
-    this._waiter = null;
-    if (waiter) waiter.resolve(frame);
   }
 
   // Send frame, wait for reply with expectedId (or timeout)
