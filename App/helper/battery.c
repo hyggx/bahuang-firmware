@@ -81,26 +81,26 @@ const uint16_t Voltage2PercentageTable[][7][2] = {
         {0,   0  },
     },
 
-    // Estimated discharge curve for 1500 mAh K1 battery (improve this)
+    // UV-K1 standard pack (1400 mAh, 2S Li-ion), typical loaded curve, not measured on hardware
     [BATTERY_TYPE_1500_MAH] = {
-        {828, 100},  // Fully charged (measured ~8.28V)
-        {813, 97 },  // Top end
-        {758, 25 },  // Mid level
-        {726, 6  },  // Almost empty
-        {630, 0  },  // Fully discharged (conservative)
-        {0,   0  },
-        {0,   0  },
+        {830, 100},
+        {819, 90 },
+        {787, 70 },
+        {761, 45 },
+        {743, 20 },
+        {710, 5  },
+        {650, 0  },
     },
 
-    // Estimated discharge curve for 2500 mAh K1 battery (improve this)
+    // UV-K1 extended pack (2500 mAh): same 2S Li-ion curve as the 1400 mAh pack, not verified
     [BATTERY_TYPE_2500_MAH] = {
-        {839, 100},  // Fully charged (measured ~8.39V)
-        {818, 95 },  // Top end (slightly raised vs 816)
-        {745, 55 },  // Mid range
-        {703, 25 },  // Low level
-        {668, 5  },  // Almost empty
-        {623, 0  },  // Fully discharged (between 630 and 600)
-        {0,   0  },
+        {830, 100},
+        {819, 90 },
+        {787, 70 },
+        {761, 45 },
+        {743, 20 },
+        {710, 5  },
+        {650, 0  },
     },
 };
 
@@ -142,9 +142,11 @@ void BATTERY_GetReadings(const bool bDisplayBatteryLevel)
         gBatteryDisplayLevel = 0; // battery critical
     else if(gBatteryVoltageAverage < 600 && (gEeprom.BATTERY_TYPE == BATTERY_TYPE_3500_MAH))
         gBatteryDisplayLevel = 0; // battery critical
+    else if(gBatteryVoltageAverage < 650 && (gEeprom.BATTERY_TYPE == BATTERY_TYPE_1500_MAH || gEeprom.BATTERY_TYPE == BATTERY_TYPE_2500_MAH))
+        gBatteryDisplayLevel = 0; // battery critical (0% of the K1 curve)
     else {
         gBatteryDisplayLevel = 1;
-        const uint8_t levels[] = {5,17,41,65,88};
+        const uint8_t levels[] = {5,10,25,50,75}; // empty frame >5%, 1 bar >10%, 2 >25%, 3 >50%, 4 >75%
         uint8_t perc = BATTERY_VoltsToPercent(gBatteryVoltageAverage);
         //char str[64];
         //LogUart("----------\n");
