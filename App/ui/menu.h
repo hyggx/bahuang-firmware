@@ -171,6 +171,7 @@ enum
     #endif
     #ifdef ENABLE_FEAT_F4HWN_VOL
         MENU_SET_VOL,
+        MENU_SET_DAC,
     #endif
     #ifdef ENABLE_FEAT_F4HWN_RESCUE_OPS
         MENU_SET_KEY,

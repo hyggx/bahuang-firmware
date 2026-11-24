@@ -163,6 +163,7 @@ typedef enum {
     STR_AIR_SETTINGS,       /* Settings   / 设置    */
 
     STR_UI_FW_NAME,         /* Bahuang    / 八荒固件 */
+    STR_MENU_SET_DAC,       /* SetDAC     / DAC增益 */
 
     STR_COUNT   /* must be last */
 } StrId_t;

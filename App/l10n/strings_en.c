@@ -144,6 +144,7 @@ const char * const g_str_en[STR_COUNT] = {
     [STR_AIR_MEM]           = "MEM ",
     [STR_AIR_SETTINGS]      = "Settings",
     [STR_UI_FW_NAME]        = "Bahuang",
+    [STR_MENU_SET_DAC]      = "SetDAC",
 };
 
 _Static_assert(sizeof(g_str_en) / sizeof(g_str_en[0]) == STR_COUNT,

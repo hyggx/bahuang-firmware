@@ -168,6 +168,7 @@ static const uint8_t kMenuIdToStr[256] = {
     #endif
     #ifdef ENABLE_FEAT_F4HWN_VOL
     [MENU_SET_VOL]       = STR_MENU_SET_VOL,
+    [MENU_SET_DAC]       = STR_MENU_SET_DAC,
     #endif
     #ifdef ENABLE_FEAT_F4HWN_RESCUE_OPS
     [MENU_SET_KEY]       = STR_MENU_SET_KEY,
@@ -232,6 +233,7 @@ const t_menu_item MenuList[] =
 #endif
 #ifdef ENABLE_FEAT_F4HWN_VOL
     {"SetRxGn",     MENU_SET_VOL,       MENU_CAT_VFO},
+    {"SetDAC",      MENU_SET_DAC,       MENU_CAT_VFO},
 #endif
 
 // ── 信道管理 (CHANMGR) ─ channel CRUD + scan lists ─────────────────────────
@@ -1856,6 +1858,13 @@ void UI_DisplayMenu(void)
                 }
                 // gEeprom.VOLUME_GAIN = gSubMenuSelection;
                 BK4819_SetRxAudioGain();
+                break;
+
+            case MENU_SET_DAC:
+                sprintf(String, "%02u", gSubMenuSelection);
+                gaugeLine = 6;
+                gaugeMin = 0;
+                gaugeMax = 15;
                 break;
         #endif
 

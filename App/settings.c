@@ -178,7 +178,7 @@ void SETTINGS_InitEEPROM(void)
     // 0E70..0E77
     PY25Q16_ReadBuffer(0x00A000, Data, 8);
     #ifdef ENABLE_FEAT_F4HWN_AUDIO
-        gSetting_set_audio_fm = ((Data[0] & 0x0F) < 5) ? (Data[0] & 0x0F) : 3;   // default BOOST
+        gSetting_set_audio_fm = ((Data[0] & 0x0F) < 5) ? (Data[0] & 0x0F) : 1;   // default CLEAN
         gSetting_set_audio_am = (((Data[0] >> 4) & 0x0F) < 3) ? ((Data[0] >> 4) & 0x0F) : 0;
     #endif
     gEeprom.SQUELCH_LEVEL        = (Data[1] < 10) ? Data[1] : 2;
@@ -1468,6 +1468,7 @@ State[1] = 0
         // 0x1F88
         PY25Q16_ReadBuffer(0x010000 + 0x188, State, sizeof(State));
         State[6] = gEeprom.VOLUME_GAIN_BACKUP;   // never the transient muted 0
+        State[7] = gEeprom.DAC_GAIN;
         PY25Q16_WriteBuffer(0x010000 + 0x188, State, sizeof(State), false);
     }
 #endif

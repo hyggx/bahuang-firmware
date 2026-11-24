@@ -150,6 +150,7 @@ const char * const g_str_zh[STR_COUNT] = {
     [STR_AIR_MEM]           = "\xe4\xbf\xa1\xe9\x81\x93 ",                 /* 信道    */
     [STR_AIR_SETTINGS]      = "\xe8\xae\xbe\xe7\xbd\xae",                 /* 设置    */
     [STR_UI_FW_NAME]        = "\xe5\x85\xab\xe8\x8d\x92\xe5\x9b\xba\xe4\xbb\xb6", /* 八荒固件 */
+    [STR_MENU_SET_DAC]      = "DAC\xe5\xa2\x9e\xe7\x9b\x8a",                     /* DAC增益 */
 };
 
 _Static_assert(sizeof(g_str_zh) / sizeof(g_str_zh[0]) == STR_COUNT,
