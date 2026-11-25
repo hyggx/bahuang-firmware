@@ -213,7 +213,7 @@ void RADIO_InitInfo(VFO_Info_t *pInfo, const uint16_t ChannelSave, const uint32_
 
     pInfo->Band                     = FREQUENCY_GetBand(Frequency);
     pInfo->SCANLIST_PARTICIPATION   = 0;
-    pInfo->STEP_SETTING             = STEP_2_5kHz;
+    pInfo->STEP_SETTING             = STEP_12_5kHz;
     pInfo->StepFrequency            = gStepFrequencyTable[pInfo->STEP_SETTING];
     pInfo->CHANNEL_SAVE             = ChannelSave;
     pInfo->FrequencyReverse         = false;
@@ -363,7 +363,7 @@ void RADIO_ConfigureChannel(const unsigned int VFO, const unsigned int configure
 
         tmp = data[6];
         if (tmp >= STEP_N_ELEM)
-            tmp = STEP_2_5kHz;
+            tmp = STEP_12_5kHz;
         pVfo->STEP_SETTING  = tmp;
         pVfo->StepFrequency = gStepFrequencyTable[tmp];
 
