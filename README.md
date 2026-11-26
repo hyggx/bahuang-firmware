@@ -13,24 +13,22 @@
     <td align="center"><img src="images/12-welcome.jpg" width="270"><br>开机画面</td>
   </tr>
   <tr>
-    <td align="center"><img src="images/02-main-rx.jpg" width="270"><br>接收中：信号强度与 S 表</td>
-    <td align="center"><img src="images/03-main-rx-strong.jpg" width="270"><br>强信号接收</td>
-    <td align="center"><img src="images/15-main-rx-s-meter.jpg" width="270"><br>接收计时、音频方案与 S 表</td>
-  </tr>
-  <tr>
+    <td align="center"><img src="images/15-main-rx-s-meter.jpg" width="270"><br>接收中：计时、音频方案与 S 表</td>
     <td align="center"><img src="images/04-main-tx.jpg" width="270"><br>发射中</td>
     <td align="center"><img src="images/05-spectrum.jpg" width="270"><br>频谱分析仪（F + 5）</td>
-    <td align="center"><img src="images/14-scanner.jpg" width="270"><br>频率扫描仪（F + 4）</td>
   </tr>
   <tr>
+    <td align="center"><img src="images/14-scanner.jpg" width="270"><br>频率扫描仪（F + 4）</td>
     <td align="center"><img src="images/11-fm-radio.jpg" width="270"><br>FM 收音机（F + 0）</td>
     <td align="center"><img src="images/09-ime-pinyin.jpg" width="270"><br>拼音输入法编辑信道名</td>
-    <td align="center"><img src="images/10-menu-freq-lock.jpg" width="270"><br>锁定频段</td>
   </tr>
   <tr>
     <td align="center"><img src="images/06-menu-category-1.jpg" width="270"><br>分类菜单（1/2）</td>
     <td align="center"><img src="images/07-menu-category-2.jpg" width="270"><br>分类菜单（2/2）</td>
     <td align="center"><img src="images/08-menu-ctcss.jpg" width="270"><br>接收模拟亚音</td>
+  </tr>
+  <tr>
+    <td align="center" colspan="3"><img src="images/10-menu-freq-lock.jpg" width="270"><br>锁定频段</td>
   </tr>
 </table>
 
