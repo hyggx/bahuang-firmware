@@ -283,7 +283,7 @@ void UI_DisplayStatus()
 
         case 2:     // percentage
             //gBatteryVoltageAverage = 999;
-            sprintf(str, "%02u%%", BATTERY_VoltsToPercent(gBatteryVoltageAverage));
+            sprintf(str, "%u%%", BATTERY_VoltsToPercent(gBatteryVoltageAverage));
             break;
     }
 
